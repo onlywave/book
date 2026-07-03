@@ -62,7 +62,7 @@ def build_body(sig, kind, capital=100000):
 
     text=f"""{titolo}
 {'='*52}
-Book 4·Sleeve — {today}   ·   Stato: {stato}
+ONLYWAVE TRADING 4 LIFE — {today}   ·   Stato: {stato}
 
 {intro}
 
@@ -86,7 +86,7 @@ Dashboard live: {DASH}
     html=f"""<div style="font-family:-apple-system,Segoe UI,sans-serif;max-width:640px;margin:auto;background:#0d121d;color:#eaf0f8;border-radius:14px;overflow:hidden;border:1px solid #243147">
 <div style="background:linear-gradient(120deg,#16233b,#0d1420);padding:18px 22px;border-bottom:1px solid #243147">
  <div style="color:#e9be5c;font-weight:800;letter-spacing:1px">{titolo}</div>
- <div style="font-size:13px;color:#8fa0ba;margin-top:3px">Book 4·Sleeve — {today} · {stato}</div></div>
+ <div style="font-size:13px;color:#8fa0ba;margin-top:3px">ONLYWAVE TRADING 4 LIFE — {today} · {stato}</div></div>
 <div style="padding:18px 22px">
  <p style="font-size:14px;color:#cfd8e6">{intro}</p>
  <table style="width:100%;border-collapse:collapse;font-size:14px;background:#121a29;border-radius:10px;overflow:hidden">
