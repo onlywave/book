@@ -112,6 +112,15 @@ stats={
 }
 MONTHLY={"years":years,"matrix":matrix,"annual":ann,"stats":stats}
 
+# --- attribuzione: contributo di ogni sleeve (i rendimenti sleeve sono già pesati W) ---
+contrib=pd.DataFrame(sleeves).iloc[TRAIN:]
+_tot=float(contrib.sum().sum())
+ATTR={"total":{n:round(float(contrib[n].sum())/_tot*100,1) for n in contrib.columns},
+      "yearly":[]}
+_cy=(contrib.groupby(contrib.index.year).sum()*100).round(1)
+for _y in _cy.index:
+    ATTR["yearly"].append({"year":int(_y),**{n:float(_cy.loc[_y,n]) for n in contrib.columns}})
+
 # storia finestre (append)
 os.makedirs(OUT,exist_ok=True)
 whp=os.path.join(OUT,"window_history.json")
@@ -131,6 +140,7 @@ json.dump({
  "sleeves":info,
  "equity":[[str(d.date()),round(float(v),4)] for d,v in eqs.items()],
  "monthly":MONTHLY,
+ "attribution":ATTR,
 },open(os.path.join(OUT,"signal.json"),"w"),indent=1)
 print("OK signal.json —","L3",("ON" if on else "VETO"),"·",
       " ".join(f"{n}:{info[n]['signal']}" for n in info))

@@ -197,6 +197,16 @@ footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);color:v
   <table class="heat" id="heat"></table>
 </div>
 
+<!-- ============ ATTRIBUZIONE ============ -->
+<h2>Chi ha fatto la performance — attribuzione per asset</h2>
+<div class="sub">Fatta 100 la performance totale dal 2018: quanto ne ha portato ciascun asset. Sotto: i punti percentuali di ognuno, anno per anno — la “staffetta” tra i motori.</div>
+<div class="kgrid" id="attribchips"></div>
+<div class="canvas-card" style="margin-top:12px">
+  <div class="b" style="font-size:12.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Contributo al rendimento del book, per anno (punti %)</div>
+  <div style="position:relative;width:100%;height:280px"><canvas id="attribc"></canvas></div>
+  <div class="soft" style="font-size:12px;margin-top:8px"><b>Come leggerlo:</b> ogni anno tira un motore diverso — nel 2022 l'oro fu l'unico positivo, nel 2025 ha fatto lui il grosso. È il senso della diversificazione: mai dipendere da un solo cavallo. (Ultimo anno = parziale.)</div>
+</div>
+
 <!-- ============ RISCHIO / RENDIMENTO ============ -->
 <h2>Rischio &amp; rendimento — in parole semplici</h2>
 <div class="two">
@@ -265,6 +275,7 @@ footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);color:v
 </footer>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const $=s=>document.querySelector(s), fmt=(x,d=0)=>Number(x).toLocaleString('it-IT',{minimumFractionDigits:d,maximumFractionDigits:d});
 const META={
@@ -285,7 +296,7 @@ async function boot(){
  const sp=$('#statuspill'); sp.className='statuspill '+(on?'pill-on':'pill-off');
  sp.textContent=on?'● SISTEMA OPERATIVO':'● PROTEZIONE ATTIVA';
  $('#hlight').style.color=on?'var(--green)':'var(--red)';
- buildKPIs(); buildHeat(); drawEquity(); drawDD(); drawWindows();
+ buildKPIs(); buildHeat(); buildAttrib(); drawEquity(); drawDD(); drawWindows();
  const w=Object.entries(SIG.sleeves).filter(([n,s])=>s.window).map(([n,s])=>`${n} = media ${s.window} giorni`).join(' · ');
  $('#curwins').textContent=w;
  render(); loadLive();
@@ -375,6 +386,31 @@ function buildKPIs(){
  $('#r-mdd').textContent='del '+Math.abs(b.maxdd)+'%';
  $('#stamp').innerHTML=' · pagina generata dai segnali del '+SIG.generated_utc;
 }
+let attribChart=null;
+function buildAttrib(){
+ const A=SIG.attribution; if(!A||!window.Chart){ return; }
+ const ordine=["BTC","ETH","XAU","SPX"];
+ const chips=$('#attribchips');
+ chips.innerHTML=ordine.map(n=>{
+   const m=META[n], s=SIG.sleeves[n]||{};
+   const ruolo=s.window?('timato · media '+s.window+'gg'):'detenuto';
+   return `<div class="kpi"><div class="v" style="color:${m.col}">${(A.total[n]??0).toFixed(1).replace('.',',')}%</div>
+     <div class="l">${m.ic} ${m.nome}</div><div class="h">${ruolo}</div></div>`;
+ }).join('');
+ const anni=A.yearly.map(r=>String(r.year));
+ if(anni.length&&SIG.generated_utc) anni[anni.length-1]+='*';
+ const ds=ordine.map(n=>({label:META[n].nome,data:A.yearly.map(r=>r[n]??0),
+   backgroundColor:META[n].col,borderRadius:3,stack:'a'}));
+ if(attribChart)attribChart.destroy();
+ attribChart=new Chart($('#attribc'),{type:'bar',
+  data:{labels:anni,datasets:ds},
+  options:{responsive:true,maintainAspectRatio:false,
+   plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.raw>0?'+':'')+Number(c.raw).toFixed(1)+' punti'}}},
+   scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#8fa0ba'}},
+           y:{stacked:true,grid:{color:'rgba(143,160,186,.12)'},
+              ticks:{color:'#8fa0ba',callback:v=>(v>0?'+':'')+v+'pt'}}}}});
+}
 function heatColor(v){ if(v==null)return 'transparent';
  const a=Math.min(Math.abs(v)/12,1);
  return v>=0?`rgba(46,193,107,${0.15+a*0.65})`:`rgba(242,85,90,${0.15+a*0.65})`;}
@@ -429,7 +465,7 @@ async function drawWindows(){
 }
 boot();
 setInterval(loadLive,30000);
-setInterval(()=>fetch('signal.json?t='+Date.now()).then(r=>r.json()).then(j=>{SIG=j;buildKPIs();buildHeat();drawEquity();drawDD();render()}),1800000);
+setInterval(()=>fetch('signal.json?t='+Date.now()).then(r=>r.json()).then(j=>{SIG=j;buildKPIs();buildHeat();buildAttrib();drawEquity();drawDD();render()}),1800000);
 </script>
 </body>
 </html>
