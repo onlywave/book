@@ -38,11 +38,19 @@ def build_body(sig, kind, capital=100000):
         med=f"media {s['window']}gg" if s.get("window") else "detenuto (B&H)"
         px=f"{s['price']:,.0f}" if s['price']>=100 else f"{s['price']:,.2f}"
         vs=f" (prezzo {px} vs {s['ma']:,.0f})" if s.get("ma") else ""
-        righe.append(f"  • {NOMI[n]:<9} → {act:<13} {frac*100:>3.0f}%  = € {eur:,.0f}   [{med}]{vs}")
+        trig=""
+        if s.get("ma"):
+            trig=(f"\n      🎯 livello di scatto: COMPRA sopra {s['ma']:,.0f}" if s["signal"]=="FLAT"
+                  else f"\n      🎯 livello di scatto: ESCI sotto {s['ma']:,.0f}")
+        righe.append(f"  • {NOMI[n]:<9} → {act:<13} {frac*100:>3.0f}%  = € {eur:,.0f}   [{med}]{vs}{trig}")
         col={"COMPRA e TIENI":"#2ec16b","MANTIENI":"#4b93ff","STAI FUORI":"#8fa0ba","VENDI TUTTO":"#f2555a"}[act]
+        htrig=""
+        if s.get("ma"):
+            htrig=(f"<br><span style='color:#2ec16b;font-size:12px'>🎯 compra sopra {s['ma']:,.0f}</span>" if s["signal"]=="FLAT"
+                   else f"<br><span style='color:#f2555a;font-size:12px'>🎯 esci sotto {s['ma']:,.0f}</span>")
         hrows.append(f"<tr><td style='padding:8px 10px'><b>{NOMI[n]}</b><br><span style='color:#889;font-size:12px'>compra con: {COME[n]}</span></td>"
                      f"<td style='padding:8px 10px;color:{col};font-weight:700'>{act}</td>"
-                     f"<td style='padding:8px 10px'>{med}{('<br><span style=\"color:#889;font-size:12px\">'+px+' vs '+format(s['ma'],',.0f')+'</span>') if s.get('ma') else ''}</td>"
+                     f"<td style='padding:8px 10px'>{med}{('<br><span style=\"color:#889;font-size:12px\">'+px+' vs '+format(s['ma'],',.0f')+'</span>') if s.get('ma') else ''}{htrig}</td>"
                      f"<td style='padding:8px 10px;text-align:right'><b>{frac*100:.0f}%</b><br>€ {eur:,.0f}</td></tr>")
     cash=max(0,1-invested)
     righe.append(f"  • {'Liquidità':<9} → TIENI FERMA {cash*100:>3.0f}%  = € {capital*cash:,.0f}")

@@ -153,7 +153,7 @@ footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);color:v
 <div class="sub">Cosa comprare, cosa tenere, cosa lasciar stare. “Media” = la linea che decide se un asset è in salute (prezzo sopra = si compra, sotto = si sta fuori).</div>
 <div class="card scroll">
   <table class="tbl"><thead><tr>
-    <th>Asset</th><th>Segnale</th><th>Cosa fare</th><th>Media in uso</th><th>Prezzo live</th><th>vs media</th><th>Quota</th><th>Importo</th>
+    <th>Asset</th><th>Segnale</th><th>Cosa fare</th><th>Media in uso</th><th>Prezzo live</th><th>vs media</th><th>🎯 Livello di scatto</th><th>Quota</th><th>Importo</th>
   </tr></thead><tbody id="rows"></tbody></table>
 </div>
 
@@ -304,14 +304,17 @@ function render(){
  for(const [n,s] of Object.entries(SIG.sleeves)){
    const m=META[n], act=actionOf(n,s), lp=livePx(n,s);
    const frac=on?s.target_frac:0, eur=C*frac; invested+=frac;
-   let flip='';
+   let flip='', trigline='';
    if(s.window&&s.ma){const cr=(s.signal==='FLAT'&&lp>s.ma)||(s.signal==='LONG'&&lp<s.ma);
-     if(cr){flip=' <span class="flip">⚡ CAMBIO in arrivo</span>';alerts.push(n);}}
+     if(cr){flip=' <span class="flip">⚡ CAMBIO in arrivo</span>';alerts.push(n);}
+     trigline=s.signal==='FLAT'
+       ?` <b class="up">🎯 Si comprerà sopra ${fmt(s.ma)}</b> (chiusura daily).`
+       :` <b class="down">🎯 Si esce sotto ${fmt(s.ma)}</b> (chiusura daily).`;}
    o.insertAdjacentHTML('beforeend',
     `<div class="orderline">
        <div class="ic" style="background:${m.col}22;color:${m.col}">${m.ic}</div>
        <div class="txt"><div class="a">${m.nome} <span class="tag ${act.tag}">${act.lbl}</span>${flip}</div>
-         <div class="d">${act.do}</div></div>
+         <div class="d">${act.do}${trigline}</div></div>
        <div class="amt">${eur>0?'€ '+fmt(eur):'—'}<div class="p">${(frac*100).toFixed(0)}% del capitale</div></div>
      </div>`);
  }
@@ -328,8 +331,11 @@ function render(){
  for(const [n,s] of Object.entries(SIG.sleeves)){
    const m=META[n], act=actionOf(n,s), lp=livePx(n,s);
    const frac=on?s.target_frac:0;
-   let vs='—', cls='';
-   if(s.ma){const d=(lp/s.ma-1)*100; vs=(d>=0?'+':'')+d.toFixed(1)+'%'; cls=d>=0?'up':'down';}
+   let vs='—', cls='', trig='—';
+   if(s.ma){const d=(lp/s.ma-1)*100; vs=(d>=0?'+':'')+d.toFixed(1)+'%'; cls=d>=0?'up':'down';
+     trig=s.signal==='FLAT'
+       ?`<span class="up b">COMPRA sopra ${fmt(s.ma)}</span><div class="asset-de">chiusura daily oltre la media ${s.window}gg</div>`
+       :`<span class="down b">ESCI sotto ${fmt(s.ma)}</span><div class="asset-de">chiusura daily sotto la media ${s.window}gg</div>`;}
    rows.insertAdjacentHTML('beforeend',
     `<tr><td><div class="asset-nm">${m.ic} ${m.nome}</div><div class="asset-de">${m.desc} · ${m.how}</div></td>
       <td><span class="tag ${act.tag}">${act.lbl}</span></td>
@@ -337,6 +343,7 @@ function render(){
       <td>${s.window?'<b>media '+s.window+'</b> gg':'—'}</td>
       <td class="px">${lp<100?fmt(lp,2):fmt(lp)}${s.binance?' <span class="soft" style="font-size:10px">live</span>':''}</td>
       <td class="${cls}">${vs}</td>
+      <td>${trig}</td>
       <td>${(frac*100).toFixed(0)}%</td>
       <td class="px">${frac>0?'€ '+fmt(C*frac):'—'}</td></tr>`);
  }
