@@ -9,6 +9,7 @@ set -e
 cd "$(dirname "$0")"
 export PATH="/opt/homebrew/bin:$PATH"
 REPO="book"                       # nome del repository (cambialo qui se vuoi)
+EXPECT_USER="onlywave"            # account atteso (solo per mostrare l'URL giusto)
 
 echo "══════════════════════════════════════════════════════"
 echo "  DEPLOY DASHBOARD BOOK 4-SLEEVE"
