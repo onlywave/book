@@ -1,0 +1,41 @@
+name: Book — segnali & alert email
+on:
+  schedule:
+    - cron: "40 6 * * *"          # ogni giorno 06:40 UTC (dopo la chiusura daily)
+  workflow_dispatch:
+    inputs:
+      test_email:
+        description: "Invia una email di TEST adesso"
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency: book-update
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install --quiet numpy pandas yfinance
+      - name: Snapshot del segnale precedente
+        run: cp docs/signal.json /tmp/old.json 2>/dev/null || echo '{}' > /tmp/old.json
+      - name: Ricalcola i segnali
+        run: python compute_signals_web.py
+      - name: Email (cambio segnale · recap del lunedì · test manuale)
+        env:
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          WEEKLY=""; [ "$(date -u +%u)" = "1" ] && WEEKLY="--weekly"
+          FORCE="";  [ "${{ github.event.inputs.test_email }}" = "true" ] && FORCE="--force"
+          python notify.py --old /tmp/old.json --new docs/signal.json $WEEKLY $FORCE
+      - name: Pubblica i segnali aggiornati
+        run: |
+          git config user.name "book-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add docs/signal.json docs/window_history.json
+          git diff --cached --quiet || git commit -m "segnali $(date -u +%F)"
+          git push
