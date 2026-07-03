@@ -89,6 +89,29 @@ cagr=(eq[-1]**(1/yrs)-1)*100; sh=managed.mean()/managed.std()*np.sqrt(PPY)
 mdd=float((eq/np.maximum.accumulate(eq)-1).min()*100)
 eqs=pd.Series(eq,index=bk.index).resample("W").last().dropna()
 
+# --- track record mensile + statistiche ---
+mser=pd.Series(managed,index=bk.index)
+mret=(1+mser).resample("ME").prod()-1
+annual=(1+mret).groupby(mret.index.year).apply(lambda s:s.prod()-1)
+matrix={}
+for d,v in mret.items():
+    matrix.setdefault(int(d.year),{})[int(d.month)]=round(float(v)*100,1)
+years=sorted(matrix.keys())
+ann={int(y):round(float(annual[y])*100,1) for y in years}
+posm=int((mret>0).sum()); totm=int(len(mret))
+ddser=eq/np.maximum.accumulate(eq)-1
+stats={
+ "win_months":posm,"tot_months":totm,"win_rate":round(posm/totm*100),
+ "best_month":round(float(mret.max())*100,1),"worst_month":round(float(mret.min())*100,1),
+ "best_year":round(max(ann.values()),1),"worst_year":round(min(ann.values()),1),
+ "pos_years":int(sum(1 for v in ann.values() if v>0)),"neg_years":int(sum(1 for v in ann.values() if v<0)),
+ "tot_growth":round(float(eq[-1]),1),
+ "avg_win_m":round(float(mret[mret>0].mean())*100,1),
+ "avg_loss_m":round(float(mret[mret<0].mean())*100,1),
+ "cur_dd":round(float(ddser[-1])*100,1),
+}
+MONTHLY={"years":years,"matrix":matrix,"annual":ann,"stats":stats}
+
 # storia finestre (append)
 os.makedirs(OUT,exist_ok=True)
 whp=os.path.join(OUT,"window_history.json")
@@ -107,6 +130,7 @@ json.dump({
              "start":str(bk.index[0].date()),"years":round(yrs,1)},
  "sleeves":info,
  "equity":[[str(d.date()),round(float(v),4)] for d,v in eqs.items()],
+ "monthly":MONTHLY,
 },open(os.path.join(OUT,"signal.json"),"w"),indent=1)
 print("OK signal.json —","L3",("ON" if on else "VETO"),"·",
       " ".join(f"{n}:{info[n]['signal']}" for n in info))

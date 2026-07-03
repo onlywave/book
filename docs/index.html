@@ -3,150 +3,426 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>📖 Book 4-Sleeve — Sala Operativa</title>
+<title>Book 4·Sleeve — Sala Operativa</title>
 <style>
-:root{--bg:#0d1117;--card:#161b22;--line:#30363d;--tx:#e6edf3;--dim:#8b949e;
---green:#3fb950;--red:#f85149;--blue:#58a6ff;--amber:#d29922}
+:root{
+ --bg:#080b12;--bg2:#0d121d;--card:#121a29;--card2:#182236;--line:#243147;
+ --gold:#e9be5c;--gold2:#c99a2e;--tx:#eaf0f8;--dim:#8fa0ba;--dim2:#63728c;
+ --green:#2ec16b;--greenbg:#10331f;--red:#f2555a;--redbg:#3a1417;
+ --blue:#4b93ff;--bluebg:#122744;--amber:#f5a623;--teal:#2fd6c0;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--tx);font:15px/1.5 -apple-system,system-ui,sans-serif;padding:16px;max-width:1000px;margin:auto}
-h1{font-size:20px;margin-bottom:2px} .dim{color:var(--dim);font-size:12.5px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
-.kpi .v{font-size:20px;font-weight:700} .kpi .l{font-size:11.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
-table{width:100%;border-collapse:collapse;margin-top:6px}
-th{font-size:11px;color:var(--dim);text-transform:uppercase;text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
-td{padding:9px 8px;border-bottom:1px solid #21262d;font-size:14.5px}
-.long{color:var(--green);font-weight:700}.flat{color:var(--dim);font-weight:700}
-.hold{color:var(--blue);font-weight:700}.warn{color:var(--amber)}
-.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12.5px;font-weight:700}
-.on{background:#1a3620;color:var(--green)}.off{background:#3d1d1f;color:var(--red)}
-.box{border-left:3px solid var(--blue);background:var(--card);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:14px}
-input{background:var(--bg);border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:7px 10px;font-size:15px;width:130px}
-canvas{width:100%;height:170px}
-.flash{animation:fl 1.2s infinite}@keyframes fl{50%{opacity:.45}}
-footer{margin-top:18px;color:var(--dim);font-size:11.5px;line-height:1.6}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(180deg,#080b12,#0a0f19 40%,#080b12);color:var(--tx);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+ -webkit-font-smoothing:antialiased;padding-bottom:40px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);
+ margin:34px 0 4px;font-weight:700;display:flex;align-items:center;gap:9px}
+h2::before{content:"";width:22px;height:2px;background:var(--gold);display:inline-block;border-radius:2px}
+.sub{color:var(--dim);font-size:13.5px;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.soft{color:var(--dim)} .b{font-weight:700}
+
+/* top bar */
+header{position:sticky;top:0;z-index:50;background:rgba(8,11,18,.86);backdrop-filter:blur(12px);
+ border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;gap:14px;padding:11px 0;flex-wrap:wrap}
+.brand{font-weight:800;letter-spacing:.5px;font-size:18px}
+.brand .g{color:var(--gold)}
+.tagline{color:var(--dim2);font-size:11.5px;letter-spacing:2px;text-transform:uppercase}
+.top .right{margin-left:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.clock{font-size:13px;color:var(--dim)} .clock b{color:var(--tx)}
+.capwrap{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim)}
+.capwrap input{background:var(--bg2);border:1px solid var(--line);color:var(--gold);
+ border-radius:9px;padding:7px 11px;font-size:15px;width:120px;font-weight:700;text-align:right}
+.statuspill{font-size:12px;font-weight:800;padding:5px 13px;border-radius:30px;letter-spacing:.4px}
+.pill-on{background:var(--greenbg);color:var(--green);border:1px solid #1f5c37}
+.pill-off{background:var(--redbg);color:var(--red);border:1px solid #6b2126}
+
+/* hero azione */
+.hero{margin-top:18px;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+ background:radial-gradient(120% 140% at 0% 0%,#16233b 0%,#101828 55%,#0d1420 100%)}
+.hero-head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.hero-head .big{font-size:19px;font-weight:800}
+.hero-head .light{width:14px;height:14px;border-radius:50%;box-shadow:0 0 14px currentColor}
+.hero-body{padding:8px 20px 20px}
+.orderline{display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid #1b2536}
+.orderline:last-child{border-bottom:none}
+.orderline .ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+ font-weight:800;font-size:13px;flex:0 0 38px}
+.orderline .txt{flex:1}
+.orderline .txt .a{font-weight:700;font-size:15.5px}
+.orderline .txt .d{color:var(--dim);font-size:13px}
+.orderline .amt{text-align:right;font-weight:800;font-size:17px;white-space:nowrap}
+.orderline .amt .p{font-size:12px;color:var(--dim);font-weight:600}
+.tag{font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.3px}
+.t-buy{background:var(--greenbg);color:var(--green)} .t-out{background:#20293a;color:var(--dim)}
+.t-hold{background:var(--bluebg);color:var(--blue)} .t-sell{background:var(--redbg);color:var(--red)}
+.flip{color:var(--amber);font-weight:800;animation:pulse 1.3s infinite}
+@keyframes pulse{50%{opacity:.4}}
+.whatnow{background:#0e1626;border:1px dashed #33425c;border-radius:12px;
+ padding:13px 16px;margin-top:14px;font-size:14.5px}
+.whatnow b{color:var(--gold)}
+
+/* kpi */
+.kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px}
+.kpi .v{font-size:26px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:11.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-top:5px}
+.kpi .h{font-size:11.5px;color:var(--dim2);margin-top:7px;line-height:1.45}
+
+/* tabella asset */
+table{width:100%;border-collapse:collapse}
+.tbl th{font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.6px;
+ text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+.tbl td{padding:12px 10px;border-bottom:1px solid #182234;font-size:14.5px;vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.asset-nm{font-weight:800;font-size:15px} .asset-de{font-size:11.5px;color:var(--dim)}
+.px{font-variant-numeric:tabular-nums;font-weight:700}
+.up{color:var(--green)} .down{color:var(--red)}
+
+/* heatmap mensile */
+.heat{width:100%;border-collapse:separate;border-spacing:3px;font-variant-numeric:tabular-nums}
+.heat th{font-size:10px;color:var(--dim2);font-weight:600;padding:2px;text-align:center}
+.heat td{text-align:center;padding:6px 3px;border-radius:5px;font-size:11.5px;font-weight:700;min-width:34px}
+.heat .yr{color:var(--gold);font-weight:800;background:none!important}
+.heat .an{font-weight:800;background:#1a2740!important;border:1px solid var(--line)}
+.scroll{overflow-x:auto}
+
+/* box didattici */
+.info{background:var(--card);border-left:3px solid var(--blue);border-radius:0 12px 12px 0;
+ padding:13px 16px;margin:10px 0;font-size:14px;color:#d5deec}
+.info .h{color:var(--blue);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.warn-box{border-left-color:var(--amber)} .warn-box .h{color:var(--amber)}
+.canvas-card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px}
+canvas{width:100%;display:block}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:0 16px;margin-top:10px}
+details summary{cursor:pointer;padding:14px 0;font-weight:700;list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"▸ ";color:var(--gold)}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 0 16px;color:#cfd8e6;font-size:14px}
+.gloss{display:grid;grid-template-columns:1fr;gap:9px}
+.gloss div{font-size:13.5px}.gloss b{color:var(--gold)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.two{grid-template-columns:1fr}.hero-head .big{font-size:16px}
+ .orderline .amt{font-size:15px}.top .right{gap:10px}}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);color:var(--dim2);font-size:12px;line-height:1.7}
+.step{display:flex;gap:12px;margin:9px 0}.step .n{flex:0 0 26px;height:26px;border-radius:50%;
+ background:var(--gold);color:#1a1200;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px}
 </style>
 </head>
 <body>
-<h1>📖 Book 4-Sleeve <span id="l3badge" class="badge on">…</span></h1>
-<div class="dim">segnali: <span id="gen">…</span> · prezzi live: <span id="livets">—</span> ·
-capitale € <input id="cap" type="number" step="1000" min="1000"></div>
 
-<div class="grid" id="kpis"></div>
+<header><div class="wrap top">
+  <div>
+    <div class="brand">BOOK <span class="g">4·SLEEVE</span></div>
+    <div class="tagline">Sala Operativa · sistema quantitativo</div>
+  </div>
+  <div class="right">
+    <span id="statuspill" class="statuspill pill-on">…</span>
+    <span class="clock">🕒 <b id="clock">--:--:--</b></span>
+    <span class="capwrap">Capitale € <input id="cap" type="number" step="1000" min="500"></span>
+  </div>
+</div></header>
 
-<div class="card">
-<table id="tbl">
-<thead><tr><th>Sleeve</th><th>Segnale</th><th>📐 Media</th><th>Prezzo live</th><th>vs media</th><th>Size L2</th><th>Target</th><th>€</th></tr></thead>
-<tbody></tbody>
-</table>
+<div class="wrap">
+
+<!-- ============ COSA FARE OGGI ============ -->
+<div class="hero">
+  <div class="hero-head">
+    <span id="hlight" class="light" style="color:var(--green)"></span>
+    <span class="big">📋 COSA FARE OGGI</span>
+    <span style="margin-left:auto;color:var(--dim);font-size:12.5px">aggiornato: <span id="gen">…</span></span>
+  </div>
+  <div class="hero-body" id="orders"></div>
 </div>
 
-<div class="box" id="actions">…</div>
-
-<div class="grid" style="grid-template-columns:1fr 1fr">
-<div class="card"><div class="l dim" style="font-size:11.5px;text-transform:uppercase">Equity backtest (walk-forward, netto costi)</div><canvas id="eqc"></canvas></div>
-<div class="card"><div class="l dim" style="font-size:11.5px;text-transform:uppercase">📐 Storia finestre adattive</div><canvas id="whc"></canvas></div>
+<div class="info" style="margin-top:14px">
+  <div class="h">👶 Prima volta qui? Leggi questo</div>
+  Questa pagina ti dice <b>ogni giorno</b> come dividere i tuoi soldi tra 4 investimenti.
+  Non devi capire i grafici: guarda solo il riquadro giallo <b>“Cosa fare oggi”</b> qui sopra
+  e replica quelle percentuali sul tuo conto (banca, broker o exchange). Si controlla
+  <b>una volta a settimana</b>. Tutto il resto sotto è spiegazione e storico, per chi vuole approfondire.
 </div>
+
+<!-- ============ POSIZIONI DETTAGLIO ============ -->
+<h2>Le 4 posizioni — dettaglio</h2>
+<div class="sub">Cosa comprare, cosa tenere, cosa lasciar stare. “Media” = la linea che decide se un asset è in salute (prezzo sopra = si compra, sotto = si sta fuori).</div>
+<div class="card scroll">
+  <table class="tbl"><thead><tr>
+    <th>Asset</th><th>Segnale</th><th>Cosa fare</th><th>Media in uso</th><th>Prezzo live</th><th>vs media</th><th>Quota</th><th>Importo</th>
+  </tr></thead><tbody id="rows"></tbody></table>
+</div>
+
+<!-- ============ QUANDO E COME ============ -->
+<h2>Quando e come operare</h2>
+<div class="two">
+  <div class="card">
+    <div class="b" style="margin-bottom:8px;color:var(--gold)">⏱️ QUANDO</div>
+    <div class="step"><span class="n">1</span><div><b>Una volta a settimana</b> (es. ogni lunedì): apri questa pagina e allinea il conto alle quote indicate.</div></div>
+    <div class="step"><span class="n">2</span><div><b>Subito</b>, se vedi il badge lampeggiante <span class="flip">⚡ CAMBIO</span>: un asset ha appena attraversato la sua media → agisci alla chiusura della giornata.</div></div>
+    <div class="step"><span class="n">3</span><div><b>Mai</b> di impulso. Nessun trade fuori da queste due regole. In media sono ~2 operazioni a settimana.</div></div>
+  </div>
+  <div class="card">
+    <div class="b" style="margin-bottom:8px;color:var(--gold)">🛒 COME</div>
+    <div class="step"><span class="n">$</span><div><b>S&P 500 e Oro</b>: si comprano con un <b>ETF</b> dalla tua banca/broker (es. ETF S&P 500, ETF oro).</div></div>
+    <div class="step"><span class="n">₿</span><div><b>Bitcoin ed Ethereum</b>: da un exchange (Binance, Kraken…) o un ETF cripto. Oggi potrebbero essere “stai fuori”.</div></div>
+    <div class="step"><span class="n">%</span><div>Compra per l’<b>importo in €</b> indicato in tabella. La parte restante resta <b>liquida</b> (cash) sul conto.</div></div>
+  </div>
+</div>
+
+<!-- ============ TRACK RECORD ============ -->
+<h2>Track record — come è andata finora</h2>
+<div class="sub" id="trsub">…</div>
+<div class="kgrid" id="kpis"></div>
+
+<div class="two" style="margin-top:14px">
+  <div class="canvas-card">
+    <div class="b" style="font-size:12.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">📈 Crescita del capitale (dal 2018)</div>
+    <canvas id="eqc" height="220"></canvas>
+    <div class="soft" style="font-size:11.5px;margin-top:6px">Scala logaritmica · include tutti i costi · <span id="eqcap"></span></div>
+  </div>
+  <div class="canvas-card">
+    <div class="b" style="font-size:12.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">📉 Quanto puoi perdere (drawdown)</div>
+    <canvas id="ddc" height="220"></canvas>
+    <div class="soft" style="font-size:11.5px;margin-top:6px">La discesa dal punto più alto. Il peggiore storico è stato <b id="mddlbl">…</b>: è il rischio che devi accettare.</div>
+  </div>
+</div>
+
+<div style="margin-top:16px" class="canvas-card scroll">
+  <div class="b" style="font-size:12.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">🗓️ Rendimenti mese per mese (verde = guadagno, rosso = perdita)</div>
+  <table class="heat" id="heat"></table>
+</div>
+
+<!-- ============ RISCHIO / RENDIMENTO ============ -->
+<h2>Rischio &amp; rendimento — in parole semplici</h2>
+<div class="two">
+  <div class="info"><div class="h">✅ Cosa aspettarsi (il buono)</div>
+   Storicamente <b id="r-cagr">…</b> all’anno di media, con circa <b id="r-win">…</b> dei mesi in guadagno.
+   In 7,7 anni il capitale è cresciuto <b id="r-grow">…</b> volte. Il rapporto rischio/rendimento
+   (Sharpe <b id="r-sh">…</b>) è di livello professionale — sopra 1 è considerato molto buono.</div>
+  <div class="info warn-box"><div class="h">⚠️ Cosa aspettarsi (il rischio)</div>
+   Non è magia: ci sono anni negativi (<b id="r-neg">…</b>) e mesi brutti (il peggiore <b id="r-wm">…</b>).
+   Nel momento peggiore il conto è sceso <b id="r-mdd">…</b> dal picco. Devi poter reggere una discesa così
+   <b>senza vendere in panico</b>: è proprio quando il sistema protegge di più.</div>
+</div>
+
+<!-- ============ LA MEDIA ============ -->
+<h2>La media che stiamo usando — e se sta “invecchiando”</h2>
+<div class="info"><div class="h">📐 Cos’è “la media”</div>
+ Ogni asset ha una <b>media mobile</b>: la linea che riassume il prezzo degli ultimi N giorni.
+ Regola: <b>prezzo sopra la media → si compra</b>; <b>sotto → si sta liquidi</b>. Il numero di giorni (N)
+ <b>non è fisso</b>: il sistema lo ricalcola ogni settimana scegliendo la zona più robusta. Oggi usiamo:
+ <b id="curwins" style="color:var(--gold)">…</b>.</div>
+<div class="canvas-card" style="margin-top:12px">
+  <div class="b" style="font-size:12.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Evoluzione della media nel tempo (BTC / ETH)</div>
+  <canvas id="whc" height="200"></canvas>
+  <div class="soft" style="font-size:12px;margin-top:8px">
+   <b>Come leggerlo:</b> se la linea resta <b>stabile</b> nella sua zona (BTC ~40, ETH ~130), l’edge è vivo.
+   Se comincia a <b>vagare</b> verso numeri alti e diversi, è il segnale che quella strategia sta
+   <b>decadendo</b> su quell’asset — e va ridotta. È il nostro “controllo di scadenza”, gratis.</div>
+</div>
+
+<!-- ============ STRATEGIA ============ -->
+<h2>La strategia e le logiche — la storia dietro tutto questo</h2>
+<div class="card" style="font-size:14.5px;line-height:1.75">
+ <p><b class="g" style="color:var(--gold)">L’idea in una riga.</b> Non proviamo a “indovinare” dove va il mercato:
+ <b>seguiamo il trend dove esiste e ci diversifichiamo dove non esiste</b>. La semplicità batte la complessità.</p>
+ <p style="margin-top:10px"><b class="g" style="color:var(--gold)">Come ci siamo arrivati (onestamente).</b> Abbiamo prima costruito un motore con
+ 8 modelli di intelligenza artificiale per prevedere la direzione dei prezzi. Testato a fondo, il verdetto è stato brutale ma onesto:
+ <b>sui mercati liquidi la direzione non è prevedibile</b> — l’IA non batteva il caso. Buttato via ciò che non funzionava,
+ è rimasto ciò che regge da decenni: una <b>media mobile</b> come filtro di tendenza.</p>
+ <p style="margin-top:10px"><b class="g" style="color:var(--gold)">Le 3 regole (i 3 livelli).</b></p>
+ <div class="step"><span class="n">L1</span><div><b>Direzione</b> — su Bitcoin ed Ethereum seguiamo la media: sopra = dentro, sotto = fuori. S&P 500 e Oro invece si <b>tengono sempre</b> (lì il trading distrugge valore: meglio possederli).</div></div>
+ <div class="step"><span class="n">L2</span><div><b>Quanto</b> — la dimensione di ogni posizione si adatta alla volatilità: più un asset è agitato, meno se ne mette. Mai leva.</div></div>
+ <div class="step"><span class="n">L3</span><div><b>Rete di sicurezza</b> — se il portafoglio scende del 15% dal massimo, si <b>chiude tutto</b> e si aspetta. Rientra da solo quando la tempesta passa. È scattata 1 sola volta in 7,7 anni.</div></div>
+ <p style="margin-top:10px"><b class="g" style="color:var(--gold)">Perché proprio questi 4?</b> Bitcoin ed Ethereum hanno un trend vero e sfruttabile.
+ S&P 500 e Oro danno <b>diversificazione</b> (si muovono in modo scorrelato dalle cripto): è questo mix che alza il rendimento
+ <i>a parità di rischio</i>. Obbligazioni e valute sono state escluse: non offrivano vantaggio.</p>
+ <p style="margin-top:10px"><b class="g" style="color:var(--gold)">La filosofia.</b> Sopravvivere viene prima di guadagnare. Stare fermi è una posizione.
+ Ogni vantaggio prima o poi decade: per questo <b>monitoriamo la media</b> (sopra) invece di innamorarci di un numero.</p>
+</div>
+
+<details><summary>📖 Glossario — i termini in 1 riga</summary><div class="dc gloss">
+ <div><b>Media mobile</b> — la media del prezzo degli ultimi N giorni; se il prezzo è sopra, la tendenza è positiva.</div>
+ <div><b>Long / Flat</b> — “Long” = investito; “Flat” = fuori dal mercato, liquido.</div>
+ <div><b>Drawdown</b> — quanto sei sceso dal punto più alto raggiunto. Misura il dolore, non la performance finale.</div>
+ <div><b>Sharpe</b> — rendimento diviso rischio. Sopra 1 = molto buono; sopra 2 = eccezionale (e raro/sospetto).</div>
+ <div><b>CAGR</b> — rendimento medio annuo composto.</div>
+ <div><b>Volatilità</b> — quanto “ballano” i prezzi. Alta volatilità → il sistema riduce la quota.</div>
+ <div><b>Ribilanciamento</b> — riportare le quote ai valori target (settimanale).</div>
+</div></details>
 
 <footer>
-Sistema: L1 media adattiva (REGOLA minimax-plateau, ricalcolo settimanale) su BTC/ETH · SPX/XAU detenuti ·
-L2 vol-target 30% (mai leva) · L3 veto: chiude a −15% dal picco ombra, rientra sopra −9%.<br>
-Esecuzione MANUALE: allinea il conto 1 volta a settimana, o subito su FLIP/L3 (~92 operazioni/anno).
-Prezzi live: Binance (crypto). SPX/XAU: chiusura daily. Strumento informativo/didattico — non è consulenza finanziaria.
+ <b>Fonte dati:</b> prezzi cripto in tempo reale da Binance; azioni/oro alla chiusura giornaliera. Segnali ricalcolati dal sistema.
+ Il capitale che inserisci resta <b>solo sul tuo dispositivo</b> (non viene inviato da nessuna parte).<br>
+ <b>Avvertenza:</b> strumento informativo ed educativo, <b>non è consulenza finanziaria</b> né sollecitazione all’investimento.
+ I rendimenti passati non garantiscono quelli futuri. Investire comporta il rischio di perdite. Le decisioni e gli ordini sono tuoi.
+ <span id="stamp"></span>
 </footer>
+</div>
 
 <script>
-const fmt=(x,d=0)=>x.toLocaleString('it-IT',{minimumFractionDigits:d,maximumFractionDigits:d});
-let SIG=null;
-const cap=document.getElementById('cap');
-cap.value=localStorage.getItem('cap')||100000;
-cap.onchange=()=>{localStorage.setItem('cap',cap.value);render()};
+const $=s=>document.querySelector(s), fmt=(x,d=0)=>Number(x).toLocaleString('it-IT',{minimumFractionDigits:d,maximumFractionDigits:d});
+const META={
+ BTC:{nome:"Bitcoin",desc:"La criptovaluta principale",how:"exchange o ETF spot",ic:"₿",col:"#f7931a"},
+ ETH:{nome:"Ethereum",desc:"Seconda criptovaluta",how:"exchange o ETF",ic:"Ξ",col:"#6f7cf7"},
+ SPX:{nome:"S&P 500",desc:"Le 500 grandi aziende USA",how:"ETF (es. CSSPX, VUSA)",ic:"📈",col:"#4b93ff"},
+ XAU:{nome:"Oro",desc:"Bene rifugio",how:"ETF oro (es. SGLD) o fisico",ic:"🥇",col:"#e9be5c"},
+};
+let SIG=null, LIVE={};
+const cap=$('#cap'); cap.value=localStorage.getItem('cap')||100000;
+cap.oninput=()=>{localStorage.setItem('cap',cap.value);render()};
+setInterval(()=>{$('#clock').textContent=new Date().toLocaleTimeString('it-IT')},1000);
 
-async function loadSig(){
-  SIG=await (await fetch('signal.json?t='+Date.now())).json();
-  document.getElementById('gen').textContent=SIG.generated_utc;
-  const b=document.getElementById('l3badge');
-  b.textContent='L3 '+(SIG.l3.on?'ON':'VETO'); b.className='badge '+(SIG.l3.on?'on':'off');
-  const k=document.getElementById('kpis'), bt=SIG.backtest;
-  k.innerHTML=['<div class="card kpi"><div class="v">'+bt.cagr+'%</div><div class="l">CAGR '+bt.years+' anni</div></div>',
-   '<div class="card kpi"><div class="v">'+bt.sharpe+'</div><div class="l">Sharpe</div></div>',
-   '<div class="card kpi"><div class="v">'+bt.maxdd+'%</div><div class="l">Max drawdown</div></div>',
-   '<div class="card kpi"><div class="v">'+(SIG.l3.dd_shadow*100).toFixed(1)+'%</div><div class="l">DD attuale (ombra)</div></div>'].join('');
-  drawEquity(); drawWindows(); render();
+async function boot(){
+ SIG=await (await fetch('signal.json?t='+Date.now())).json();
+ $('#gen').textContent=SIG.generated_utc;
+ const on=SIG.l3.on;
+ const sp=$('#statuspill'); sp.className='statuspill '+(on?'pill-on':'pill-off');
+ sp.textContent=on?'● SISTEMA OPERATIVO':'● PROTEZIONE ATTIVA';
+ $('#hlight').style.color=on?'var(--green)':'var(--red)';
+ buildKPIs(); buildHeat(); drawEquity(); drawDD(); drawWindows();
+ const w=Object.entries(SIG.sleeves).filter(([n,s])=>s.window).map(([n,s])=>`${n} = media ${s.window} giorni`).join(' · ');
+ $('#curwins').textContent=w;
+ render(); loadLive();
 }
-let LIVE={};
-async function loadLive(){
-  try{
-    const syms=Object.values(SIG.sleeves).map(s=>s.binance).filter(Boolean);
-    for(const s of syms){
-      const r=await (await fetch('https://api.binance.com/api/v3/ticker/price?symbol='+s)).json();
-      LIVE[s]=parseFloat(r.price);
-    }
-    document.getElementById('livets').textContent=new Date().toLocaleTimeString('it-IT');
-  }catch(e){}
-  render();
+function actionOf(n,s){
+ if(!SIG.l3.on) return {tag:'t-sell',lbl:'VENDI TUTTO',do:'Chiudi la posizione: protezione attiva.'};
+ if(s.role==='detenuto') return {tag:'t-hold',lbl:'MANTIENI',do:`Tieni sempre ~${Math.round(s.weight*100)}% qui.`};
+ if(s.signal==='LONG') return {tag:'t-buy',lbl:'COMPRA e TIENI',do:'Prezzo sopra la media: si sta investiti.'};
+ return {tag:'t-out',lbl:'STAI FUORI',do:'Prezzo sotto la media: resta liquido, non comprare.'};
 }
+function livePx(n,s){return (s.binance&&LIVE[s.binance])?LIVE[s.binance]:s.price;}
 function render(){
-  if(!SIG)return;
-  const C=parseFloat(cap.value)||100000;
-  const tb=document.querySelector('#tbl tbody'); tb.innerHTML='';
-  let tot=0, alerts=[];
-  for(const [n,s] of Object.entries(SIG.sleeves)){
-    const live=s.binance&&LIVE[s.binance]?LIVE[s.binance]:s.price;
-    const cls=s.signal==='LONG'?'long':(s.signal==='HOLD'?'hold':'flat');
-    let vs='—', flipWarn='';
-    if(s.ma){
-      const d=(live/s.ma-1)*100;
-      vs=(d>=0?'+':'')+d.toFixed(1)+'%';
-      const crossed=(s.signal==='FLAT'&&live>s.ma)||(s.signal==='LONG'&&live<s.ma);
-      if(crossed){flipWarn=' <span class="warn flash">⚡ FLIP imminente</span>';
-        alerts.push(n+': il prezzo live ha attraversato la MA'+s.window+' — possibile '+(s.signal==='FLAT'?'ACQUISTO':'CHIUSURA')+' alla chiusura daily');}
-    }
-    const frac=SIG.l3.on?s.target_frac:0, eur=C*frac; tot+=frac;
-    tb.insertAdjacentHTML('beforeend','<tr><td><b>'+n+'</b> <span class="dim">'+s.role+'</span></td>'+
-      '<td class="'+cls+'">'+s.signal+flipWarn+'</td>'+
-      '<td>'+(s.window?'MA'+s.window:'—')+'</td>'+
-      '<td>'+fmt(live,live<100?2:0)+(s.binance?' <span class="dim">live</span>':' <span class="dim">daily</span>')+'</td>'+
-      '<td>'+vs+'</td><td>'+s.size_l2.toFixed(2)+'</td>'+
-      '<td>'+(frac*100).toFixed(1)+'%</td><td><b>'+fmt(eur)+'</b></td></tr>');
-  }
-  tb.insertAdjacentHTML('beforeend','<tr><td colspan="6"><b>TOTALE investito</b> <span class="dim">(resto in cash)</span></td>'+
-    '<td><b>'+(tot*100).toFixed(1)+'%</b></td><td><b>'+fmt(C*tot)+'</b></td></tr>');
-  const a=document.getElementById('actions');
-  const today=new Date(); const nextMon=new Date(today); nextMon.setDate(today.getDate()+((8-today.getDay())%7||7));
-  a.innerHTML='<b>🎯 Cosa fare:</b> '+(alerts.length?('<span class="warn">'+alerts.join(' · ')+'</span> — ricontrolla dopo la chiusura (02:00 ora IT per crypto).'):
-    (SIG.l3.on?'nessun cambio segnale in corso. Prossimo allineamento settimanale: <b>lunedì '+nextMon.toLocaleDateString('it-IT')+'</b>. Porta il conto sui target in tabella (banda ±5%).':
-    '<span class="warn">L3 VETO ATTIVO: book FLAT — chiudi tutte le posizioni e attendi il rientro (dd sopra −9%).</span>'));
+ if(!SIG)return; const C=+cap.value||100000, on=SIG.l3.on;
+ // hero orders
+ const o=$('#orders'); o.innerHTML=''; let invested=0, alerts=[];
+ for(const [n,s] of Object.entries(SIG.sleeves)){
+   const m=META[n], act=actionOf(n,s), lp=livePx(n,s);
+   const frac=on?s.target_frac:0, eur=C*frac; invested+=frac;
+   let flip='';
+   if(s.window&&s.ma){const cr=(s.signal==='FLAT'&&lp>s.ma)||(s.signal==='LONG'&&lp<s.ma);
+     if(cr){flip=' <span class="flip">⚡ CAMBIO in arrivo</span>';alerts.push(n);}}
+   o.insertAdjacentHTML('beforeend',
+    `<div class="orderline">
+       <div class="ic" style="background:${m.col}22;color:${m.col}">${m.ic}</div>
+       <div class="txt"><div class="a">${m.nome} <span class="tag ${act.tag}">${act.lbl}</span>${flip}</div>
+         <div class="d">${act.do}</div></div>
+       <div class="amt">${eur>0?'€ '+fmt(eur):'—'}<div class="p">${(frac*100).toFixed(0)}% del capitale</div></div>
+     </div>`);
+ }
+ const cash=Math.max(0,1-invested);
+ o.insertAdjacentHTML('beforeend',
+   `<div class="orderline"><div class="ic" style="background:#20293a;color:var(--dim)">💶</div>
+     <div class="txt"><div class="a">Liquidità (cash)</div><div class="d">Lascia questi soldi fermi sul conto.</div></div>
+     <div class="amt">€ ${fmt(C*cash)}<div class="p">${(cash*100).toFixed(0)}% del capitale</div></div></div>`);
+ o.insertAdjacentHTML('beforeend', on
+   ? `<div class="whatnow">👉 <b>In pratica oggi:</b> porta il conto a queste percentuali. ${alerts.length?`<span style="color:var(--amber)">Attenzione: ${alerts.join(', ')} sta per cambiare segnale — ricontrolla stasera.</span>`:'Nessun cambiamento in corso: prossimo controllo tra una settimana.'}</div>`
+   : `<div class="whatnow" style="border-color:var(--red)">🛑 <b style="color:var(--red)">PROTEZIONE ATTIVA:</b> il sistema è uscito da tutto per limitare le perdite. Resta <b>100% liquido</b> e aspetta il rientro automatico.</div>`);
+ // tabella
+ const rows=$('#rows'); rows.innerHTML='';
+ for(const [n,s] of Object.entries(SIG.sleeves)){
+   const m=META[n], act=actionOf(n,s), lp=livePx(n,s);
+   const frac=on?s.target_frac:0;
+   let vs='—', cls='';
+   if(s.ma){const d=(lp/s.ma-1)*100; vs=(d>=0?'+':'')+d.toFixed(1)+'%'; cls=d>=0?'up':'down';}
+   rows.insertAdjacentHTML('beforeend',
+    `<tr><td><div class="asset-nm">${m.ic} ${m.nome}</div><div class="asset-de">${m.desc} · ${m.how}</div></td>
+      <td><span class="tag ${act.tag}">${act.lbl}</span></td>
+      <td style="font-size:13px;color:var(--dim)">${act.do}</td>
+      <td>${s.window?'<b>media '+s.window+'</b> gg':'—'}</td>
+      <td class="px">${lp<100?fmt(lp,2):fmt(lp)}${s.binance?' <span class="soft" style="font-size:10px">live</span>':''}</td>
+      <td class="${cls}">${vs}</td>
+      <td>${(frac*100).toFixed(0)}%</td>
+      <td class="px">${frac>0?'€ '+fmt(C*frac):'—'}</td></tr>`);
+ }
+}
+async function loadLive(){
+ try{for(const s of Object.values(SIG.sleeves)){ if(!s.binance)continue;
+   const r=await (await fetch('https://api.binance.com/api/v3/ticker/price?symbol='+s.binance)).json();
+   if(r.price)LIVE[s.binance]=parseFloat(r.price);}
+ }catch(e){}
+ render();
+}
+function buildKPIs(){
+ const b=SIG.backtest, st=SIG.monthly.stats;
+ $('#trsub').innerHTML=`Simulazione onesta su <b>${b.years} anni</b> (${b.start} → oggi), tutti i costi inclusi, senza “sensi di poi”.`;
+ const K=[
+  ['+'+b.cagr+'%','Rendimento annuo','media composta (CAGR)'],
+  ['x'+st.tot_growth,'Crescita totale','da €100k a €'+fmt(100000*st.tot_growth)],
+  [b.sharpe,'Sharpe (qualità)','rendimento/rischio · &gt;1 è ottimo'],
+  [b.maxdd+'%','Perdita max','la discesa peggiore mai vista'],
+  [st.win_rate+'%','Mesi positivi',st.win_months+' su '+st.tot_months+' mesi'],
+  [st.pos_years+'/'+(st.pos_years+st.neg_years),'Anni in utile','solo '+st.neg_years+' anni negativi'],
+ ];
+ $('#kpis').innerHTML=K.map(k=>`<div class="kpi"><div class="v">${k[0]}</div><div class="l">${k[1]}</div><div class="h">${k[2]}</div></div>`).join('');
+ $('#mddlbl').textContent=b.maxdd+'%';
+ // riquadri rischio
+ $('#r-cagr').textContent='+'+b.cagr+'%'; $('#r-win').textContent=st.win_rate+'%';
+ $('#r-grow').textContent='x'+st.tot_growth; $('#r-sh').textContent=b.sharpe;
+ $('#r-neg').textContent=st.neg_years+' su '+(st.pos_years+st.neg_years); $('#r-wm').textContent=st.worst_month+'%';
+ $('#r-mdd').textContent='del '+Math.abs(b.maxdd)+'%';
+ $('#stamp').innerHTML=' · pagina generata dai segnali del '+SIG.generated_utc;
+}
+function heatColor(v){ if(v==null)return 'transparent';
+ const a=Math.min(Math.abs(v)/12,1);
+ return v>=0?`rgba(46,193,107,${0.15+a*0.65})`:`rgba(242,85,90,${0.15+a*0.65})`;}
+function buildHeat(){
+ const M=SIG.monthly, mesi=['G','F','M','A','M','G','L','A','S','O','N','D'];
+ let h='<tr><th>Anno</th>'+mesi.map(m=>`<th>${m}</th>`).join('')+'<th style="color:var(--gold)">ANNO</th></tr>';
+ for(const y of M.years){
+   h+=`<tr><td class="yr">${y}</td>`;
+   for(let mo=1;mo<=12;mo++){const v=(M.matrix[y]||{})[mo];
+     h+=`<td style="background:${heatColor(v==null?null:v)};color:${v==null?'var(--dim2)':'#fff'}">${v==null?'·':(v>0?'+':'')+v}</td>`;}
+   const a=M.annual[y]; h+=`<td class="an" style="color:${a>=0?'var(--green)':'var(--red)'}">${a>0?'+':''}${a}%</td></tr>`;
+ }
+ $('#heat').innerHTML=h;
+}
+function line(cvs,pts,color,logscale,fill){
+ const c=$(cvs),x=c.getContext('2d'),W=c.width=c.offsetWidth*2,H=c.height=c.height*2||440;
+ if(!pts.length)return; const ys=pts.map(p=>p[1]);
+ let mn=Math.min(...ys),mx=Math.max(...ys); if(mn===mx){mn*=0.99;mx*=1.01;}
+ const Y=v=>{const a=logscale?(Math.log(v)-Math.log(mn))/(Math.log(mx)-Math.log(mn)):(v-mn)/(mx-mn);return H-14-a*(H-26);};
+ const X=i=>i/(pts.length-1)*(W-6)+3;
+ if(fill){const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,color+'55');g.addColorStop(1,color+'00');
+  x.beginPath();x.moveTo(X(0),H);pts.forEach((p,i)=>x.lineTo(X(i),Y(p[1])));x.lineTo(X(pts.length-1),H);x.closePath();x.fillStyle=g;x.fill();}
+ x.strokeStyle=color;x.lineWidth=2.5;x.beginPath();pts.forEach((p,i)=>i?x.lineTo(X(i),Y(p[1])):x.moveTo(X(i),Y(p[1])));x.stroke();
+ return {x,W,H,X,Y};
 }
 function drawEquity(){
-  const c=document.getElementById('eqc'),x=c.getContext('2d');
-  const W=c.width=c.offsetWidth*2,H=c.height=340;
-  const eq=SIG.equity,vs=eq.map(p=>p[1]),mn=Math.min(...vs),mx=Math.max(...vs);
-  x.strokeStyle='#3fb950';x.lineWidth=2.5;x.beginPath();
-  eq.forEach((p,i)=>{const px=i/(eq.length-1)*W,py=H-8-((Math.log(p[1])-Math.log(mn))/(Math.log(mx)-Math.log(mn)))*(H-20);i?x.lineTo(px,py):x.moveTo(px,py)});
-  x.stroke();
-  x.fillStyle='#8b949e';x.font='20px sans-serif';
-  x.fillText(eq[0][0],8,H-14);x.fillText('x'+vs[vs.length-1].toFixed(1),W-90,26);
+ const r=line('#eqc',SIG.equity.map(p=>[p[0],p[1]]),'#2ec16b',true,true);
+ if(r){r.x.fillStyle='#8fa0ba';r.x.font='22px sans-serif';
+  r.x.fillText(SIG.equity[0][0],8,r.H-18);
+  r.x.fillStyle='#2ec16b';r.x.fillText('x'+SIG.equity.at(-1)[1].toFixed(1),r.W-90,30);}
+ $('#eqcap').textContent='€100k iniziali → €'+fmt(100000*SIG.equity.at(-1)[1]);
+}
+function drawDD(){
+ const eq=SIG.equity.map(p=>p[1]);let pk=-1e9;const dd=SIG.equity.map((p,i)=>{pk=Math.max(pk,eq[i]);return [p[0],(eq[i]/pk-1)*100];});
+ const r=line('#ddc',dd,'#f2555a',false,true);
+ if(r){r.x.fillStyle='#f2555a';r.x.font='22px sans-serif';r.x.fillText(Math.min(...dd.map(d=>d[1])).toFixed(0)+'%',8,30);}
 }
 async function drawWindows(){
-  try{
-    const wh=await (await fetch('window_history.json?t='+Date.now())).json();
-    const c=document.getElementById('whc'),x=c.getContext('2d');
-    const W=c.width=c.offsetWidth*2,H=c.height=340;
-    const keys=['BTC','ETH'],cols=['#f7931a','#58a6ff'];
-    const all=wh.flatMap(r=>keys.map(k=>r[k]).filter(v=>v));
-    const mn=Math.min(...all)-5,mx=Math.max(...all)+5;
-    keys.forEach((k,ki)=>{x.strokeStyle=cols[ki];x.lineWidth=2.5;x.beginPath();let started=false;
-      wh.forEach((r,i)=>{if(r[k]==null)return;const px=i/Math.max(wh.length-1,1)*W,py=H-8-((r[k]-mn)/(mx-mn))*(H-20);
-        started?x.lineTo(px,py):x.moveTo(px,py);started=true});x.stroke();
-      x.fillStyle=cols[ki];x.font='20px sans-serif';
-      const last=[...wh].reverse().find(r=>r[k]!=null);
-      if(last)x.fillText(k+' MA'+last[k],10,26+ki*24);});
-  }catch(e){}
+ try{const wh=await (await fetch('window_history.json?t='+Date.now())).json();
+  if(wh.length<2){$('#whc').parentElement.querySelector('canvas').getContext('2d').fillStyle='#63728c';return;}
+  const c=$('#whc'),x=c.getContext('2d'),W=c.width=c.offsetWidth*2,H=c.height=400;
+  const keys=[['BTC','#f7931a'],['ETH','#6f7cf7']];
+  const all=wh.flatMap(r=>keys.map(k=>r[k[0]]).filter(v=>v!=null));
+  let mn=Math.min(...all)-8,mx=Math.max(...all)+8;
+  keys.forEach(([k,col])=>{x.strokeStyle=col;x.lineWidth=3;x.beginPath();let st=false;
+   wh.forEach((r,i)=>{if(r[k]==null)return;const px=i/Math.max(wh.length-1,1)*(W-6)+3,py=H-16-((r[k]-mn)/(mx-mn))*(H-30);
+     st?x.lineTo(px,py):x.moveTo(px,py);st=true;});x.stroke();});
+  x.font='22px sans-serif';
+  const lb=[...wh].reverse().find(r=>r.BTC!=null); if(lb){x.fillStyle='#f7931a';x.fillText('BTC = '+lb.BTC+'gg',12,28);}
+  const le=[...wh].reverse().find(r=>r.ETH!=null); if(le){x.fillStyle='#6f7cf7';x.fillText('ETH = '+le.ETH+'gg',12,54);}
+ }catch(e){}
 }
-loadSig().then(loadLive);
-setInterval(loadLive,30000);        // prezzi live ogni 30s
-setInterval(loadSig,30*60000);      // segnali ogni 30 min
+boot();
+setInterval(loadLive,30000);
+setInterval(()=>fetch('signal.json?t='+Date.now()).then(r=>r.json()).then(j=>{SIG=j;buildKPIs();buildHeat();drawEquity();drawDD();render()}),1800000);
 </script>
 </body>
 </html>
