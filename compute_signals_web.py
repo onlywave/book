@@ -42,12 +42,15 @@ def pick(Rtr):
     if not np.isfinite(mn).any(): return None
     K=np.ones(2*KPLAT+1)/(2*KPLAT+1); return int(np.argmax(np.convolve(np.nan_to_num(mn,nan=-9.0),K,"same")))
 def wf_pos(Ws,P,R):
-    T=R.shape[0]; pos=np.zeros(T); act=int(np.argmin(np.abs(Ws-200))); i=TRAIN; j=act
+    """Ritorna posizioni, finestra attiva OGGI e la serie storica delle finestre scelte."""
+    T=R.shape[0]; pos=np.zeros(T); wser=np.zeros(T,dtype=int)
+    act=int(np.argmin(np.abs(Ws-200))); i=TRAIN; j=act
     while i<T:
         s=pick(R[i-TRAIN:i])
         if s is not None: act=act+int(np.clip(s-act,-STEP,STEP))
-        j=min(max(act,0),R.shape[1]-1); hi=min(i+WEEK,T); pos[i:hi]=P[i:hi,j]; i=hi
-    return pos,int(Ws[j])
+        j=min(max(act,0),R.shape[1]-1); hi=min(i+WEEK,T)
+        pos[i:hi]=P[i:hi,j]; wser[i:hi]=Ws[j]; i=hi
+    return pos,int(Ws[j]),wser
 def l3_shadow(r):
     r=np.asarray(r,float); T=len(r); out=np.zeros(T); eq=1.0; pk=1.0; on=True; ev=0; dd=0.0
     for t in range(T):
@@ -57,6 +60,7 @@ def l3_shadow(r):
         elif (not on) and dd>-REARM: on=True
     return out,on,ev,dd
 
+WSERIES={}   # storia delle finestre scelte dal walk-forward (per il grafico decadimento)
 px={n:load_yf(t) for n,t in {**TIMED,**HELD}.items()}
 start=max(px[n].index[0] for n in TIMED); end=min(px[n].index[-1] for n in px)
 cal=pd.date_range(start,end,freq="D")
@@ -67,7 +71,8 @@ for n,s in px.items():
     size=(VT/vol).clip(upper=1.0).fillna(0.0)
     if n in TIMED:
         Ws,P,R,_=build_pos(s.values)
-        posn,w_act=wf_pos(Ws,P,R)
+        posn,w_act,wser=wf_pos(Ws,P,R)
+        WSERIES[n]=pd.Series(wser,index=s.index).iloc[TRAIN:]
         pos=pd.Series(posn,index=s.index).reindex(cal).ffill().fillna(0.0)
         ma=float(s.rolling(w_act).mean().iloc[-1])
     else:
@@ -121,14 +126,16 @@ _cy=(contrib.groupby(contrib.index.year).sum()*100).round(1)
 for _y in _cy.index:
     ATTR["yearly"].append({"year":int(_y),**{n:float(_cy.loc[_y,n]) for n in contrib.columns}})
 
-# storia finestre (append)
+# storia finestre: RICOSTRUITA integralmente dal walk-forward (deterministica) a
+# cadenza settimanale dal 2018 + il punto di oggi. Così il grafico è pieno da subito.
 os.makedirs(OUT,exist_ok=True)
 whp=os.path.join(OUT,"window_history.json")
-wh=json.load(open(whp)) if os.path.exists(whp) else []
+wk=pd.DataFrame({n:WSERIES[n].resample("W").last() for n in WSERIES}).dropna(how="all")
+wk=wk[(wk>0).all(axis=1)]
+wh=[{"date":str(d.date()),**{n:int(wk.loc[d,n]) for n in wk.columns}} for d in wk.index]
 today=str(dt.date.today())
-if not any(r["date"]==today for r in wh):
+if wh and wh[-1]["date"]!=today:
     wh.append({"date":today,**{n:info[n]["window"] for n in TIMED}})
-    wh=wh[-500:]
 json.dump(wh,open(whp,"w"))
 
 json.dump({

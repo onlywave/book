@@ -393,7 +393,7 @@ function buildAttrib(){
  const chips=$('#attribchips');
  chips.innerHTML=ordine.map(n=>{
    const m=META[n], s=SIG.sleeves[n]||{};
-   const ruolo=s.window?('timato · media '+s.window+'gg'):'detenuto';
+   const ruolo=s.window?('a segnale · entra/esce con la media '+s.window+'gg'):'sempre investito';
    return `<div class="kpi"><div class="v" style="color:${m.col}">${(A.total[n]??0).toFixed(1).replace('.',',')}%</div>
      <div class="l">${m.ic} ${m.nome}</div><div class="h">${ruolo}</div></div>`;
  }).join('');
@@ -461,6 +461,8 @@ async function drawWindows(){
   x.font='22px sans-serif';
   const lb=[...wh].reverse().find(r=>r.BTC!=null); if(lb){x.fillStyle='#f7931a';x.fillText('BTC = '+lb.BTC+'gg',12,28);}
   const le=[...wh].reverse().find(r=>r.ETH!=null); if(le){x.fillStyle='#6f7cf7';x.fillText('ETH = '+le.ETH+'gg',12,54);}
+  x.fillStyle='#63728c';
+  x.fillText(wh[0].date,12,H-8); x.fillText(wh[wh.length-1].date,W-150,H-8);
  }catch(e){}
 }
 boot();

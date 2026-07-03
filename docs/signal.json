@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-07-03 23:14 UTC",
+ "generated_utc": "2026-07-03 23:21 UTC",
  "l3": {
   "on": true,
   "dd_shadow": -0.068,
@@ -19,8 +19,8 @@
    "role": "timato",
    "signal": "FLAT",
    "window": 43,
-   "ma": 65694.59393168605,
-   "price": 62507.01953125,
+   "ma": 65696.51953125,
+   "price": 62589.8203125,
    "size_l2": 0.955,
    "weight": 0.25,
    "target_frac": 0.0,
@@ -31,8 +31,8 @@
    "role": "timato",
    "signal": "FLAT",
    "window": 58,
-   "ma": 1891.4580772662985,
-   "price": 1755.93994140625,
+   "ma": 1891.5213538860453,
+   "price": 1759.6099853515625,
    "size_l2": 0.705,
    "weight": 0.25,
    "target_frac": 0.0,
