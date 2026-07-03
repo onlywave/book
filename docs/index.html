@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>📖 Book 4-Sleeve — Sala Operativa</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--line:#30363d;--tx:#e6edf3;--dim:#8b949e;
+--green:#3fb950;--red:#f85149;--blue:#58a6ff;--amber:#d29922}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.5 -apple-system,system-ui,sans-serif;padding:16px;max-width:1000px;margin:auto}
+h1{font-size:20px;margin-bottom:2px} .dim{color:var(--dim);font-size:12.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
+.kpi .v{font-size:20px;font-weight:700} .kpi .l{font-size:11.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
+table{width:100%;border-collapse:collapse;margin-top:6px}
+th{font-size:11px;color:var(--dim);text-transform:uppercase;text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+td{padding:9px 8px;border-bottom:1px solid #21262d;font-size:14.5px}
+.long{color:var(--green);font-weight:700}.flat{color:var(--dim);font-weight:700}
+.hold{color:var(--blue);font-weight:700}.warn{color:var(--amber)}
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12.5px;font-weight:700}
+.on{background:#1a3620;color:var(--green)}.off{background:#3d1d1f;color:var(--red)}
+.box{border-left:3px solid var(--blue);background:var(--card);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:14px}
+input{background:var(--bg);border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:7px 10px;font-size:15px;width:130px}
+canvas{width:100%;height:170px}
+.flash{animation:fl 1.2s infinite}@keyframes fl{50%{opacity:.45}}
+footer{margin-top:18px;color:var(--dim);font-size:11.5px;line-height:1.6}
+</style>
+</head>
+<body>
+<h1>📖 Book 4-Sleeve <span id="l3badge" class="badge on">…</span></h1>
+<div class="dim">segnali: <span id="gen">…</span> · prezzi live: <span id="livets">—</span> ·
+capitale € <input id="cap" type="number" step="1000" min="1000"></div>
+
+<div class="grid" id="kpis"></div>
+
+<div class="card">
+<table id="tbl">
+<thead><tr><th>Sleeve</th><th>Segnale</th><th>📐 Media</th><th>Prezzo live</th><th>vs media</th><th>Size L2</th><th>Target</th><th>€</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+
+<div class="box" id="actions">…</div>
+
+<div class="grid" style="grid-template-columns:1fr 1fr">
+<div class="card"><div class="l dim" style="font-size:11.5px;text-transform:uppercase">Equity backtest (walk-forward, netto costi)</div><canvas id="eqc"></canvas></div>
+<div class="card"><div class="l dim" style="font-size:11.5px;text-transform:uppercase">📐 Storia finestre adattive</div><canvas id="whc"></canvas></div>
+</div>
+
+<footer>
+Sistema: L1 media adattiva (REGOLA minimax-plateau, ricalcolo settimanale) su BTC/ETH · SPX/XAU detenuti ·
+L2 vol-target 30% (mai leva) · L3 veto: chiude a −15% dal picco ombra, rientra sopra −9%.<br>
+Esecuzione MANUALE: allinea il conto 1 volta a settimana, o subito su FLIP/L3 (~92 operazioni/anno).
+Prezzi live: Binance (crypto). SPX/XAU: chiusura daily. Strumento informativo/didattico — non è consulenza finanziaria.
+</footer>
+
+<script>
+const fmt=(x,d=0)=>x.toLocaleString('it-IT',{minimumFractionDigits:d,maximumFractionDigits:d});
+let SIG=null;
+const cap=document.getElementById('cap');
+cap.value=localStorage.getItem('cap')||100000;
+cap.onchange=()=>{localStorage.setItem('cap',cap.value);render()};
+
+async function loadSig(){
+  SIG=await (await fetch('signal.json?t='+Date.now())).json();
+  document.getElementById('gen').textContent=SIG.generated_utc;
+  const b=document.getElementById('l3badge');
+  b.textContent='L3 '+(SIG.l3.on?'ON':'VETO'); b.className='badge '+(SIG.l3.on?'on':'off');
+  const k=document.getElementById('kpis'), bt=SIG.backtest;
+  k.innerHTML=['<div class="card kpi"><div class="v">'+bt.cagr+'%</div><div class="l">CAGR '+bt.years+' anni</div></div>',
+   '<div class="card kpi"><div class="v">'+bt.sharpe+'</div><div class="l">Sharpe</div></div>',
+   '<div class="card kpi"><div class="v">'+bt.maxdd+'%</div><div class="l">Max drawdown</div></div>',
+   '<div class="card kpi"><div class="v">'+(SIG.l3.dd_shadow*100).toFixed(1)+'%</div><div class="l">DD attuale (ombra)</div></div>'].join('');
+  drawEquity(); drawWindows(); render();
+}
+let LIVE={};
+async function loadLive(){
+  try{
+    const syms=Object.values(SIG.sleeves).map(s=>s.binance).filter(Boolean);
+    for(const s of syms){
+      const r=await (await fetch('https://api.binance.com/api/v3/ticker/price?symbol='+s)).json();
+      LIVE[s]=parseFloat(r.price);
+    }
+    document.getElementById('livets').textContent=new Date().toLocaleTimeString('it-IT');
+  }catch(e){}
+  render();
+}
+function render(){
+  if(!SIG)return;
+  const C=parseFloat(cap.value)||100000;
+  const tb=document.querySelector('#tbl tbody'); tb.innerHTML='';
+  let tot=0, alerts=[];
+  for(const [n,s] of Object.entries(SIG.sleeves)){
+    const live=s.binance&&LIVE[s.binance]?LIVE[s.binance]:s.price;
+    const cls=s.signal==='LONG'?'long':(s.signal==='HOLD'?'hold':'flat');
+    let vs='—', flipWarn='';
+    if(s.ma){
+      const d=(live/s.ma-1)*100;
+      vs=(d>=0?'+':'')+d.toFixed(1)+'%';
+      const crossed=(s.signal==='FLAT'&&live>s.ma)||(s.signal==='LONG'&&live<s.ma);
+      if(crossed){flipWarn=' <span class="warn flash">⚡ FLIP imminente</span>';
+        alerts.push(n+': il prezzo live ha attraversato la MA'+s.window+' — possibile '+(s.signal==='FLAT'?'ACQUISTO':'CHIUSURA')+' alla chiusura daily');}
+    }
+    const frac=SIG.l3.on?s.target_frac:0, eur=C*frac; tot+=frac;
+    tb.insertAdjacentHTML('beforeend','<tr><td><b>'+n+'</b> <span class="dim">'+s.role+'</span></td>'+
+      '<td class="'+cls+'">'+s.signal+flipWarn+'</td>'+
+      '<td>'+(s.window?'MA'+s.window:'—')+'</td>'+
+      '<td>'+fmt(live,live<100?2:0)+(s.binance?' <span class="dim">live</span>':' <span class="dim">daily</span>')+'</td>'+
+      '<td>'+vs+'</td><td>'+s.size_l2.toFixed(2)+'</td>'+
+      '<td>'+(frac*100).toFixed(1)+'%</td><td><b>'+fmt(eur)+'</b></td></tr>');
+  }
+  tb.insertAdjacentHTML('beforeend','<tr><td colspan="6"><b>TOTALE investito</b> <span class="dim">(resto in cash)</span></td>'+
+    '<td><b>'+(tot*100).toFixed(1)+'%</b></td><td><b>'+fmt(C*tot)+'</b></td></tr>');
+  const a=document.getElementById('actions');
+  const today=new Date(); const nextMon=new Date(today); nextMon.setDate(today.getDate()+((8-today.getDay())%7||7));
+  a.innerHTML='<b>🎯 Cosa fare:</b> '+(alerts.length?('<span class="warn">'+alerts.join(' · ')+'</span> — ricontrolla dopo la chiusura (02:00 ora IT per crypto).'):
+    (SIG.l3.on?'nessun cambio segnale in corso. Prossimo allineamento settimanale: <b>lunedì '+nextMon.toLocaleDateString('it-IT')+'</b>. Porta il conto sui target in tabella (banda ±5%).':
+    '<span class="warn">L3 VETO ATTIVO: book FLAT — chiudi tutte le posizioni e attendi il rientro (dd sopra −9%).</span>'));
+}
+function drawEquity(){
+  const c=document.getElementById('eqc'),x=c.getContext('2d');
+  const W=c.width=c.offsetWidth*2,H=c.height=340;
+  const eq=SIG.equity,vs=eq.map(p=>p[1]),mn=Math.min(...vs),mx=Math.max(...vs);
+  x.strokeStyle='#3fb950';x.lineWidth=2.5;x.beginPath();
+  eq.forEach((p,i)=>{const px=i/(eq.length-1)*W,py=H-8-((Math.log(p[1])-Math.log(mn))/(Math.log(mx)-Math.log(mn)))*(H-20);i?x.lineTo(px,py):x.moveTo(px,py)});
+  x.stroke();
+  x.fillStyle='#8b949e';x.font='20px sans-serif';
+  x.fillText(eq[0][0],8,H-14);x.fillText('x'+vs[vs.length-1].toFixed(1),W-90,26);
+}
+async function drawWindows(){
+  try{
+    const wh=await (await fetch('window_history.json?t='+Date.now())).json();
+    const c=document.getElementById('whc'),x=c.getContext('2d');
+    const W=c.width=c.offsetWidth*2,H=c.height=340;
+    const keys=['BTC','ETH'],cols=['#f7931a','#58a6ff'];
+    const all=wh.flatMap(r=>keys.map(k=>r[k]).filter(v=>v));
+    const mn=Math.min(...all)-5,mx=Math.max(...all)+5;
+    keys.forEach((k,ki)=>{x.strokeStyle=cols[ki];x.lineWidth=2.5;x.beginPath();let started=false;
+      wh.forEach((r,i)=>{if(r[k]==null)return;const px=i/Math.max(wh.length-1,1)*W,py=H-8-((r[k]-mn)/(mx-mn))*(H-20);
+        started?x.lineTo(px,py):x.moveTo(px,py);started=true});x.stroke();
+      x.fillStyle=cols[ki];x.font='20px sans-serif';
+      const last=[...wh].reverse().find(r=>r[k]!=null);
+      if(last)x.fillText(k+' MA'+last[k],10,26+ki*24);});
+  }catch(e){}
+}
+loadSig().then(loadLive);
+setInterval(loadLive,30000);        // prezzi live ogni 30s
+setInterval(loadSig,30*60000);      // segnali ogni 30 min
+</script>
+</body>
+</html>
