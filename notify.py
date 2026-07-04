@@ -122,7 +122,7 @@ if __name__=="__main__":
     new=json.load(open(a.new)); old=json.load(open(a.old)) if a.old and os.path.exists(a.old) else None
     changed = fingerprint(old)!=fingerprint(new)
     kind = "test" if a.force else ("alert" if changed else "weekly")
-    to=[x.strip() for x in os.environ.get("MAIL_TO","ebferreri@egonon.ch,ebferreri@gmail.com").split(",") if x.strip()]
+    to=[x.strip() for x in (os.environ.get("MAIL_TO") or "ebferreri@egonon.ch,ebferreri@gmail.com").split(",") if x.strip()]
     subject,text,html=build_body(new,kind,a.capital)
     if a.print:
         print("SUBJECT:",subject); print(text); raise SystemExit
