@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-07-03 23:21 UTC",
+ "generated_utc": "2026-07-04 09:07 UTC",
  "l3": {
   "on": true,
   "dd_shadow": -0.068,
@@ -19,24 +19,24 @@
    "role": "timato",
    "signal": "FLAT",
    "window": 43,
-   "ma": 65696.51953125,
-   "price": 62589.8203125,
+   "ma": 65694.27234738372,
+   "price": 62493.19140625,
    "size_l2": 0.955,
    "weight": 0.25,
    "target_frac": 0.0,
-   "asof": "2026-07-03",
+   "asof": "2026-07-04",
    "binance": "BTCUSDT"
   },
   "ETH": {
    "role": "timato",
    "signal": "FLAT",
    "window": 58,
-   "ma": 1891.5213538860453,
-   "price": 1759.6099853515625,
+   "ma": 1891.5382501010238,
+   "price": 1760.5899658203125,
    "size_l2": 0.705,
    "weight": 0.25,
    "target_frac": 0.0,
-   "asof": "2026-07-03",
+   "asof": "2026-07-04",
    "binance": "ETHUSDT"
   },
   "SPX": {
