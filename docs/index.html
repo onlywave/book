@@ -228,8 +228,13 @@ footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);color:v
  <b>non è fisso</b>: il sistema lo ricalcola ogni settimana scegliendo la zona più robusta. Oggi usiamo:
  <b id="curwins" style="color:var(--gold)">…</b>.</div>
 <div class="canvas-card" style="margin-top:12px">
-  <div class="b" style="font-size:12.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Evoluzione della media nel tempo (BTC / ETH)</div>
-  <canvas id="whc" height="200"></canvas>
+  <div class="b" style="font-size:12.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Evoluzione della media nel tempo (BTC / ETH) + crescita del capitale</div>
+  <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:8px;font-size:12px;color:var(--dim)">
+    <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:#f7931a"></span>Media BTC (giorni, asse sx)</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:#6f7cf7"></span>Media ETH (giorni, asse sx)</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:#2ec16b"></span>Capitale € (asse dx, log)</span>
+  </div>
+  <div style="position:relative;height:320px"><canvas id="whc"></canvas></div>
   <div class="soft" style="font-size:12px;margin-top:8px">
    <b>Come leggerlo:</b> se la linea resta <b>stabile</b> nella sua zona (BTC ~40, ETH ~130), l’edge è vivo.
    Se comincia a <b>vagare</b> verso numeri alti e diversi, è il segnale che quella strategia sta
@@ -467,21 +472,34 @@ function drawDD(){
    scales:{x:{grid:{display:false},ticks:{color:AXC,autoSkip:false,maxRotation:0,callback:yearTicks(labels)}},
      y:{max:0,grid:{color:GRC},ticks:{color:AXC,callback:v=>v+'%'}}}}});
 }
+let whChart=null;
 async function drawWindows(){
  try{const wh=await (await fetch('window_history.json?t='+Date.now())).json();
-  if(wh.length<2){$('#whc').parentElement.querySelector('canvas').getContext('2d').fillStyle='#63728c';return;}
-  const c=$('#whc'),x=c.getContext('2d'),W=c.width=c.offsetWidth*2,H=c.height=400;
-  const keys=[['BTC','#f7931a'],['ETH','#6f7cf7']];
-  const all=wh.flatMap(r=>keys.map(k=>r[k[0]]).filter(v=>v!=null));
-  let mn=Math.min(...all)-8,mx=Math.max(...all)+8;
-  keys.forEach(([k,col])=>{x.strokeStyle=col;x.lineWidth=3;x.beginPath();let st=false;
-   wh.forEach((r,i)=>{if(r[k]==null)return;const px=i/Math.max(wh.length-1,1)*(W-6)+3,py=H-16-((r[k]-mn)/(mx-mn))*(H-30);
-     st?x.lineTo(px,py):x.moveTo(px,py);st=true;});x.stroke();});
-  x.font='22px sans-serif';
-  const lb=[...wh].reverse().find(r=>r.BTC!=null); if(lb){x.fillStyle='#f7931a';x.fillText('BTC = '+lb.BTC+'gg',12,28);}
-  const le=[...wh].reverse().find(r=>r.ETH!=null); if(le){x.fillStyle='#6f7cf7';x.fillText('ETH = '+le.ETH+'gg',12,54);}
-  x.fillStyle='#63728c';
-  x.fillText(wh[0].date,12,H-8); x.fillText(wh[wh.length-1].date,W-150,H-8);
+  if(wh.length<2)return;
+  const labels=wh.map(r=>r.date);
+  const eqMap={}; (SIG.equity||[]).forEach(p=>eqMap[p[0]]=p[1]);
+  let last=null;
+  const eq=labels.map(d=>{if(eqMap[d]!=null)last=eqMap[d];return last!=null?Math.round(last*100000):null;});
+  if(whChart)whChart.destroy();
+  whChart=new Chart($('#whc'),{type:'line',
+   data:{labels,datasets:[
+    {label:'Media BTC',data:wh.map(r=>r.BTC??null),borderColor:'#f7931a',stepped:true,pointRadius:0,borderWidth:2,yAxisID:'y'},
+    {label:'Media ETH',data:wh.map(r=>r.ETH??null),borderColor:'#6f7cf7',stepped:true,pointRadius:0,borderWidth:2,yAxisID:'y'},
+    {label:'Capitale',data:eq,borderColor:'#2ec16b',backgroundColor:'rgba(46,193,107,.07)',fill:true,
+     pointRadius:0,borderWidth:2,tension:.15,yAxisID:'y2'}
+   ]},
+   options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},
+     tooltip:{callbacks:{title:c=>labels[c[0].dataIndex],
+      label:c=>c.dataset.yAxisID==='y2'?('capitale: € '+fmt(c.raw)):(c.dataset.label+': '+c.raw+' giorni')}}},
+    scales:{
+     x:{grid:{display:false},ticks:{color:AXC,autoSkip:false,maxRotation:0,callback:yearTicks(labels)}},
+     y:{position:'left',grid:{color:GRC},ticks:{color:AXC,callback:v=>v+'gg'}},
+     y2:{position:'right',type:'logarithmic',grid:{display:false},
+       ticks:{color:'#2ec16b',callback:v=>{
+        const m=+(v/Math.pow(10,Math.floor(Math.log10(v)))).toFixed(2);
+        if(![1,2,4].includes(m))return null;
+        return Math.round(v/1000)+'k€';}}}}}});
  }catch(e){}
 }
 boot();
