@@ -13,12 +13,15 @@ BINANCE={"BTC":"BTCUSDT","ETH":"ETHUSDT"}
 OUT=os.path.join(os.path.dirname(os.path.abspath(__file__)),"docs")
 
 def load_yf(t):
+    """Retry robusto (backoff esponenziale ~4 min totali): il run deve sopravvivere
+    ai singhiozzi transitori di yahoo. Se fallisce comunque, il workflow fallisce
+    APPOSTA (email di allerta da GitHub) e la dashboard conserva i dati di ieri."""
     import yfinance as yf, time
-    for _ in range(4):
+    for att in range(7):
         df=yf.download(t,period="max",progress=False,auto_adjust=True)
         if len(df)>100: break
-        time.sleep(10)
-    else: raise RuntimeError(f"download {t} fallito")
+        time.sleep(min(120, 8*2**att))
+    else: raise RuntimeError(f"download {t} fallito dopo 7 tentativi")
     s=df["Close"][t] if isinstance(df.columns,pd.MultiIndex) else df["Close"]
     s=s.dropna().astype(float); s=s[s.values>=1.0]
     if s.index.tz is not None: s.index=s.index.tz_convert(None)
