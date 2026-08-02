@@ -1,14 +1,14 @@
 {
- "generated_utc": "2026-08-01 08:54 UTC",
+ "generated_utc": "2026-08-02 08:57 UTC",
  "l3": {
   "on": true,
-  "dd_shadow": -0.0693,
+  "dd_shadow": -0.0659,
   "trail": 0.15,
   "rearm": 0.09,
   "label": "ON"
  },
  "backtest": {
-  "cagr": 20.5,
+  "cagr": 20.6,
   "sharpe": 1.5,
   "maxdd": -18.0,
   "start": "2018-11-09",
@@ -19,24 +19,24 @@
    "role": "timato",
    "signal": "LONG",
    "window": 44,
-   "ma": 63169.87881747159,
-   "price": 63075.0,
+   "ma": 63153.63893821023,
+   "price": 63137.9609375,
    "size_l2": 0.976,
    "weight": 0.25,
    "target_frac": 0.2441,
-   "asof": "2026-08-01",
+   "asof": "2026-08-02",
    "binance": "BTCUSDT"
   },
   "ETH": {
    "role": "timato",
    "signal": "LONG",
    "window": 24,
-   "ma": 1868.522725423177,
-   "price": 1867.1300048828125,
+   "ma": 1872.6395212809246,
+   "price": 1867.0,
    "size_l2": 0.672,
    "weight": 0.25,
    "target_frac": 0.168,
-   "asof": "2026-08-01",
+   "asof": "2026-08-02",
    "binance": "ETHUSDT"
   },
   "SPX": {
@@ -56,7 +56,7 @@
    "signal": "HOLD",
    "window": null,
    "ma": null,
-   "price": 4049.10009765625,
+   "price": 4107.0,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.25,
@@ -1679,7 +1679,7 @@
   ],
   [
    "2026-08-02",
-   4.2361
+   4.2513
   ]
  ],
  "monthly": {
@@ -1804,7 +1804,7 @@
     "4": 3.6,
     "5": 0.0,
     "6": -3.2,
-    "7": 0.3
+    "7": 0.7
    }
   },
   "annual": {
@@ -1816,7 +1816,7 @@
    "2023": 18.0,
    "2024": 28.6,
    "2025": 20.6,
-   "2026": -1.9
+   "2026": -1.5
   },
   "stats": {
    "win_months": 52,
@@ -1828,18 +1828,18 @@
    "worst_year": -9.6,
    "pos_years": 6,
    "neg_years": 3,
-   "tot_growth": 4.2,
+   "tot_growth": 4.3,
    "avg_win_m": 4.3,
    "avg_loss_m": -2.1,
-   "cur_dd": -6.9
+   "cur_dd": -6.6
   }
  },
  "attribution": {
   "total": {
-   "BTC": 34.8,
-   "ETH": 29.1,
+   "BTC": 34.7,
+   "ETH": 29.0,
    "SPX": 16.8,
-   "XAU": 19.3
+   "XAU": 19.5
   },
   "yearly": [
    {
@@ -1903,7 +1903,7 @@
     "BTC": -0.7,
     "ETH": -0.7,
     "SPX": 2.4,
-    "XAU": -2.4
+    "XAU": -2.0
    }
   ]
  }
