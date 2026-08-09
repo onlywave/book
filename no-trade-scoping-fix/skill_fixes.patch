@@ -1,0 +1,60 @@
+diff --git a/bottleneck-portfolio-cio/SKILL.md b/bottleneck-portfolio-cio/SKILL.md
+index d74e864..bd8dcba 100644
+--- a/bottleneck-portfolio-cio/SKILL.md
++++ b/bottleneck-portfolio-cio/SKILL.md
+@@ -7,7 +7,7 @@ description: Memoria operativa e protocollo CIO della strategia GLOBAL BOTTLENEC
+ 
+ Memoria operativa autoritativa della strategia. Versione handoff 1.0, consegna 6 agosto 2026.
+ 
+-**Default operativo permanente: NO TRADE.** Questa skill non autorizza alcuna esecuzione. Produce ricerca, classificazione, shadow target e checkpoint datati.
++**NO TRADE è l'ipotesi nulla del ciclo di decisione di capitale (§9), non una regola di sessione.** Vale come esito di default di ogni proposta di capitale finché riconciliazione ed evidenze non giustificano altro; non vieta né limita analisi, risposte o giudizi CIO conclusivi su titoli, settori o tesi. Questa skill non esegue ordini: produce ricerca, classificazione, shadow target, checkpoint datati e giudizi espliciti.
+ 
+ ---
+ 
+@@ -182,7 +182,7 @@ Prima di ragionare su pesi o proposte:
+ 
+ Se i report aggiornati non ci sono, dichiararlo e fermarsi al livello ricerca. Non estrapolare quantità reali da dati di mercato.
+ 
+-**Stato al 6 agosto 2026: RICERCA ATTIVA — RADAR IN ESPANSIONE — PORTAFOGLI NON RICONCILIATI — NO TRADE.**
++**Esito del ciclo al 6 agosto 2026: RICERCA ATTIVA — RADAR IN ESPANSIONE — PORTAFOGLI NON RICONCILIATI — NO TRADE.** È lo stato datato dell'ultimo checkpoint: decade al checkpoint successivo e non vincola le risposte delle sessioni correnti.
+ 
+ ---
+ 
+diff --git a/bottleneck-portfolio-cio/references/current_state_2026-08-06.md b/bottleneck-portfolio-cio/references/current_state_2026-08-06.md
+index b2a17ef..7e6156b 100644
+--- a/bottleneck-portfolio-cio/references/current_state_2026-08-06.md
++++ b/bottleneck-portfolio-cio/references/current_state_2026-08-06.md
+@@ -146,4 +146,4 @@ Prossima azione corretta:
+ 
+ Fino ad allora:
+ 
+-**RICERCA ATTIVA — RADAR IN ESPANSIONE — PORTAFOGLI NON RICONCILIATI — NO TRADE.**
++**RICERCA ATTIVA — RADAR IN ESPANSIONE — PORTAFOGLI NON RICONCILIATI — esito del ciclo: NO TRADE** (checkpoint datato 2026-08-06: non è un divieto di sessione e non limita analisi o giudizi conclusivi).
+diff --git a/bottleneck-portfolio-cio/references/portfolios_and_capital.md b/bottleneck-portfolio-cio/references/portfolios_and_capital.md
+index 3f1776e..b82a86c 100644
+--- a/bottleneck-portfolio-cio/references/portfolios_and_capital.md
++++ b/bottleneck-portfolio-cio/references/portfolios_and_capital.md
+@@ -72,7 +72,7 @@ Ogni shadow target deve:
+ - distinguere certezza industriale e valutazione di mercato;
+ - **non essere eseguito automaticamente**.
+ 
+-Default operativo: **NO TRADE**.
++Ipotesi nulla del ciclo: **NO TRADE** finché i dieci passaggi del protocollo non sono completati con esito favorevole. È il default dell'esito di capitale, non un limite all'analisi o al giudizio.
+ 
+ ---
+ 
+diff --git a/emanuele-portfolio-architect/SKILL.md b/emanuele-portfolio-architect/SKILL.md
+index f18dfd7..010fb64 100644
+--- a/emanuele-portfolio-architect/SKILL.md
++++ b/emanuele-portfolio-architect/SKILL.md
+@@ -9,6 +9,10 @@ Run an end-to-end institutional portfolio workflow. Never claim access to propri
+ 
+ This skill produces educational analysis and indicative drafts, not personalized investment advice, a solicitation, or a bank recommendation. State this once in every deliverable and defer execution decisions to the user and their licensed advisor/depositary.
+ 
++## Scope isolation
++
++This skill is independent of `bottleneck-portfolio-cio`. That skill's cycle rules — its `NO TRADE` null hypothesis, monthly checkpoint cadence, and reconciliation gates — govern only the GLOBAL BOTTLENECK mandates and never carry over here. Never decline, defer, or dilute an answer within this skill's scope by citing another skill's rules.
++
+ ## Effort scaling
+ 
+ Match the depth of the workflow to the request. Do not force the full 16-section institutional report onto a narrow question.
