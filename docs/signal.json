@@ -1,14 +1,14 @@
 {
- "generated_utc": "2026-09-16 11:59 UTC",
+ "generated_utc": "2026-09-17 12:00 UTC",
  "l3": {
   "on": true,
-  "dd_shadow": -0.0405,
+  "dd_shadow": -0.0359,
   "trail": 0.15,
   "rearm": 0.09,
   "label": "ON"
  },
  "backtest": {
-  "cagr": 21.7,
+  "cagr": 21.8,
   "sharpe": 1.55,
   "maxdd": -18.0,
   "start": "2018-11-09",
@@ -17,26 +17,26 @@
  "sleeves": {
   "BTC": {
    "role": "timato",
-   "signal": "LONG",
-   "window": 29,
-   "ma": 77724.65113146552,
-   "price": 76173.2265625,
-   "size_l2": 0.894,
+   "signal": "FLAT",
+   "window": 46,
+   "ma": 72905.57557744565,
+   "price": 76385.671875,
+   "size_l2": 0.829,
    "weight": 0.25,
-   "target_frac": 0.2234,
-   "asof": "2026-09-16",
+   "target_frac": 0.0,
+   "asof": "2026-09-17",
    "binance": "BTCUSDT"
   },
   "ETH": {
    "role": "timato",
    "signal": "LONG",
    "window": 61,
-   "ma": 2159.7395479796364,
-   "price": 2419.60009765625,
-   "size_l2": 0.786,
+   "ma": 2169.139838547003,
+   "price": 2438.2900390625,
+   "size_l2": 0.721,
    "weight": 0.25,
-   "target_frac": 0.1964,
-   "asof": "2026-09-16",
+   "target_frac": 0.1804,
+   "asof": "2026-09-17",
    "binance": "ETHUSDT"
   },
   "SPX": {
@@ -44,11 +44,11 @@
    "signal": "HOLD",
    "window": null,
    "ma": null,
-   "price": 7585.72998046875,
+   "price": 7551.81005859375,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.25,
-   "asof": "2026-09-15",
+   "asof": "2026-09-16",
    "binance": null
   },
   "XAU": {
@@ -56,11 +56,11 @@
    "signal": "HOLD",
    "window": null,
    "ma": null,
-   "price": 4388.89990234375,
+   "price": 4371.89990234375,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.25,
-   "asof": "2026-09-16",
+   "asof": "2026-09-17",
    "binance": null
   }
  },
@@ -1707,7 +1707,7 @@
   ],
   [
    "2026-09-20",
-   4.6906
+   4.713
   ]
  ],
  "monthly": {
@@ -1834,7 +1834,7 @@
     "6": -3.2,
     "7": 0.6,
     "8": 13.1,
-    "9": -2.4
+    "9": -2.0
    }
   },
   "annual": {
@@ -1846,7 +1846,7 @@
    "2023": 17.9,
    "2024": 28.6,
    "2025": 20.6,
-   "2026": 8.6
+   "2026": 9.2
   },
   "stats": {
    "win_months": 54,
@@ -1861,15 +1861,15 @@
    "tot_growth": 4.7,
    "avg_win_m": 4.4,
    "avg_loss_m": -2.2,
-   "cur_dd": -4.1
+   "cur_dd": -3.6
   }
  },
  "attribution": {
   "total": {
-   "BTC": 34.8,
+   "BTC": 34.7,
    "ETH": 30.1,
-   "SPX": 15.9,
-   "XAU": 19.2
+   "SPX": 15.8,
+   "XAU": 19.4
   },
   "yearly": [
    {
@@ -1930,10 +1930,10 @@
    },
    {
     "year": 2026,
-    "BTC": 3.0,
-    "ETH": 4.1,
-    "SPX": 2.7,
-    "XAU": -0.7
+    "BTC": 3.2,
+    "ETH": 4.2,
+    "SPX": 2.6,
+    "XAU": -0.3
    }
   ]
  }
