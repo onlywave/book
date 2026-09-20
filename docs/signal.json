@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-09-19 11:27 UTC",
+ "generated_utc": "2026-09-20 11:46 UTC",
  "l3": {
   "on": true,
   "dd_shadow": -0.005,
@@ -19,24 +19,24 @@
    "role": "timato",
    "signal": "LONG",
    "window": 46,
-   "ma": 73659.26409646739,
-   "price": 81266.9609375,
+   "ma": 74002.24847146739,
+   "price": 80408.0625,
    "size_l2": 0.9,
    "weight": 0.25,
    "target_frac": 0.2249,
-   "asof": "2026-09-19",
+   "asof": "2026-09-20",
    "binance": "BTCUSDT"
   },
   "ETH": {
    "role": "timato",
    "signal": "LONG",
    "window": 43,
-   "ma": 2318.710395280705,
-   "price": 2639.14990234375,
+   "ma": 2333.8682974881904,
+   "price": 2574.510009765625,
    "size_l2": 0.74,
    "weight": 0.25,
    "target_frac": 0.185,
-   "asof": "2026-09-19",
+   "asof": "2026-09-20",
    "binance": "ETHUSDT"
   },
   "SPX": {
