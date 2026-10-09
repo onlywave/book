@@ -1,8 +1,8 @@
 {
- "generated_utc": "2026-10-08 13:57 UTC",
+ "generated_utc": "2026-10-09 13:41 UTC",
  "l3": {
   "on": true,
-  "dd_shadow": -0.0393,
+  "dd_shadow": -0.0368,
   "trail": 0.15,
   "rearm": 0.09,
   "label": "ON"
@@ -19,24 +19,24 @@
    "role": "timato",
    "signal": "LONG",
    "window": 38,
-   "ma": 81352.31332236843,
-   "price": 81964.046875,
-   "size_l2": 0.696,
+   "ma": 81479.86019736843,
+   "price": 82538.1171875,
+   "size_l2": 0.819,
    "weight": 0.25,
-   "target_frac": 0.1739,
-   "asof": "2026-10-08",
+   "target_frac": 0.2046,
+   "asof": "2026-10-09",
    "binance": "BTCUSDT"
   },
   "ETH": {
    "role": "timato",
-   "signal": "LONG",
-   "window": 61,
-   "ma": 2438.22659251729,
-   "price": 2514.68994140625,
-   "size_l2": 0.671,
+   "signal": "FLAT",
+   "window": 41,
+   "ma": 2572.2084067740093,
+   "price": 2482.199951171875,
+   "size_l2": 0.792,
    "weight": 0.25,
-   "target_frac": 0.1678,
-   "asof": "2026-10-08",
+   "target_frac": 0.0,
+   "asof": "2026-10-09",
    "binance": "ETHUSDT"
   },
   "SPX": {
@@ -44,11 +44,11 @@
    "signal": "HOLD",
    "window": null,
    "ma": null,
-   "price": 7780.18994140625,
+   "price": 7791.97998046875,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.25,
-   "asof": "2026-10-08",
+   "asof": "2026-10-09",
    "binance": null
   },
   "XAU": {
@@ -56,11 +56,11 @@
    "signal": "HOLD",
    "window": null,
    "ma": null,
-   "price": 4153.7001953125,
+   "price": 4217.10009765625,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.25,
-   "asof": "2026-10-08",
+   "asof": "2026-10-09",
    "binance": null
   }
  },
@@ -1719,7 +1719,7 @@
   ],
   [
    "2026-10-11",
-   4.7853
+   4.798
   ]
  ],
  "monthly": {
@@ -1847,7 +1847,7 @@
     "7": 0.6,
     "8": 13.1,
     "9": 1.0,
-    "10": -1.4
+    "10": -1.2
    }
   },
   "annual": {
@@ -1859,7 +1859,7 @@
    "2023": 17.9,
    "2024": 28.6,
    "2025": 20.6,
-   "2026": 10.8
+   "2026": 11.1
   },
   "stats": {
    "win_months": 55,
@@ -1874,15 +1874,15 @@
    "tot_growth": 4.8,
    "avg_win_m": 4.3,
    "avg_loss_m": -2.2,
-   "cur_dd": -3.9
+   "cur_dd": -3.7
   }
  },
  "attribution": {
   "total": {
    "BTC": 35.3,
-   "ETH": 30.2,
+   "ETH": 30.0,
    "SPX": 16.1,
-   "XAU": 18.4
+   "XAU": 18.6
   },
   "yearly": [
    {
@@ -1943,10 +1943,10 @@
    },
    {
     "year": 2026,
-    "BTC": 4.7,
-    "ETH": 4.9,
+    "BTC": 4.8,
+    "ETH": 4.6,
     "SPX": 3.4,
-    "XAU": -1.7
+    "XAU": -1.3
    }
   ]
  }
