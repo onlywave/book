@@ -1,8 +1,8 @@
 {
- "generated_utc": "2026-10-19 13:52 UTC",
+ "generated_utc": "2026-10-20 12:03 UTC",
  "l3": {
   "on": true,
-  "dd_shadow": -0.044,
+  "dd_shadow": -0.0449,
   "trail": 0.15,
   "rearm": 0.09,
   "label": "ON"
@@ -19,24 +19,24 @@
    "role": "timato",
    "signal": "LONG",
    "window": 43,
-   "ma": 81860.77470930232,
-   "price": 82134.6328125,
+   "ma": 81907.76853197675,
+   "price": 81417.6796875,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.25,
-   "asof": "2026-10-19",
+   "asof": "2026-10-20",
    "binance": "BTCUSDT"
   },
   "ETH": {
    "role": "timato",
    "signal": "FLAT",
    "window": 21,
-   "ma": 2550.3435872395835,
-   "price": 2403.1298828125,
+   "ma": 2536.4532645089284,
+   "price": 2383.340087890625,
    "size_l2": 0.824,
    "weight": 0.25,
    "target_frac": 0.0,
-   "asof": "2026-10-19",
+   "asof": "2026-10-20",
    "binance": "ETHUSDT"
   },
   "SPX": {
@@ -44,7 +44,7 @@
    "signal": "HOLD",
    "window": null,
    "ma": null,
-   "price": 7693.91015625,
+   "price": 7690.72998046875,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.25,
@@ -56,11 +56,11 @@
    "signal": "HOLD",
    "window": null,
    "ma": null,
-   "price": 4174.10009765625,
+   "price": 4140.39990234375,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.25,
-   "asof": "2026-10-19",
+   "asof": "2026-10-20",
    "binance": null
   }
  },
@@ -1727,7 +1727,7 @@
   ],
   [
    "2026-10-25",
-   4.762
+   4.7575
   ]
  ],
  "monthly": {
@@ -1855,7 +1855,7 @@
     "7": 0.6,
     "8": 13.1,
     "9": 1.0,
-    "10": -1.9
+    "10": -2.0
    }
   },
   "annual": {
@@ -1867,7 +1867,7 @@
    "2023": 17.9,
    "2024": 28.6,
    "2025": 20.6,
-   "2026": 10.3
+   "2026": 10.2
   },
   "stats": {
    "win_months": 55,
@@ -1882,12 +1882,12 @@
    "tot_growth": 4.8,
    "avg_win_m": 4.3,
    "avg_loss_m": -2.2,
-   "cur_dd": -4.4
+   "cur_dd": -4.5
   }
  },
  "attribution": {
   "total": {
-   "BTC": 35.3,
+   "BTC": 35.4,
    "ETH": 30.1,
    "SPX": 16.0,
    "XAU": 18.5
