@@ -1,8 +1,8 @@
 {
- "generated_utc": "2026-10-29 13:39 UTC",
+ "generated_utc": "2026-10-30 13:28 UTC",
  "l3": {
   "on": true,
-  "dd_shadow": -0.0577,
+  "dd_shadow": -0.0574,
   "trail": 0.15,
   "rearm": 0.09,
   "label": "ON"
@@ -19,24 +19,24 @@
    "role": "timato",
    "signal": "FLAT",
    "window": 43,
-   "ma": 82748.89444040698,
-   "price": 79827.7421875,
+   "ma": 82718.61228197675,
+   "price": 77154.2734375,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.0,
-   "asof": "2026-10-29",
+   "asof": "2026-10-30",
    "binance": "BTCUSDT"
   },
   "ETH": {
    "role": "timato",
    "signal": "FLAT",
-   "window": 41,
-   "ma": 2541.5866282393295,
-   "price": 2312.5400390625,
+   "window": 58,
+   "ma": 2519.2002079404633,
+   "price": 2226.5400390625,
    "size_l2": 0.956,
    "weight": 0.25,
    "target_frac": 0.0,
-   "asof": "2026-10-29",
+   "asof": "2026-10-30",
    "binance": "ETHUSDT"
   },
   "SPX": {
@@ -44,7 +44,7 @@
    "signal": "HOLD",
    "window": null,
    "ma": null,
-   "price": 7700.9501953125,
+   "price": 7720.39013671875,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.25,
@@ -56,11 +56,11 @@
    "signal": "HOLD",
    "window": null,
    "ma": null,
-   "price": 4035.60009765625,
+   "price": 3953.39990234375,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.25,
-   "asof": "2026-10-29",
+   "asof": "2026-10-30",
    "binance": null
   }
  },
@@ -1731,7 +1731,7 @@
   ],
   [
    "2026-11-01",
-   4.6938
+   4.6955
   ]
  ],
  "monthly": {
@@ -1871,7 +1871,7 @@
    "2023": 17.9,
    "2024": 28.6,
    "2025": 20.6,
-   "2026": 8.7
+   "2026": 8.8
   },
   "stats": {
    "win_months": 55,
@@ -1886,14 +1886,14 @@
    "tot_growth": 4.7,
    "avg_win_m": 4.3,
    "avg_loss_m": -2.2,
-   "cur_dd": -5.8
+   "cur_dd": -5.7
   }
  },
  "attribution": {
   "total": {
    "BTC": 35.3,
    "ETH": 30.4,
-   "SPX": 16.1,
+   "SPX": 16.2,
    "XAU": 18.2
   },
   "yearly": [
@@ -1957,7 +1957,7 @@
     "year": 2026,
     "BTC": 4.0,
     "ETH": 4.6,
-    "SPX": 3.1,
+    "SPX": 3.2,
     "XAU": -2.4
    }
   ]
