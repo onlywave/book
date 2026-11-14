@@ -1,8 +1,8 @@
 {
- "generated_utc": "2026-11-13 14:52 UTC",
+ "generated_utc": "2026-11-14 13:45 UTC",
  "l3": {
   "on": true,
-  "dd_shadow": -0.069,
+  "dd_shadow": -0.0702,
   "trail": 0.15,
   "rearm": 0.09,
   "label": "ON"
@@ -19,24 +19,24 @@
    "role": "timato",
    "signal": "FLAT",
    "window": 44,
-   "ma": 80087.76544744318,
-   "price": 68927.9609375,
+   "ma": 79661.35706676137,
+   "price": 66769.8203125,
    "size_l2": 0.738,
    "weight": 0.25,
    "target_frac": 0.0,
-   "asof": "2026-11-13",
+   "asof": "2026-11-14",
    "binance": "BTCUSDT"
   },
   "ETH": {
    "role": "timato",
    "signal": "FLAT",
    "window": 18,
-   "ma": 2205.3941718207466,
-   "price": 1950.260009765625,
+   "ma": 2178.737996419271,
+   "price": 1890.5899658203125,
    "size_l2": 0.533,
    "weight": 0.25,
    "target_frac": 0.0,
-   "asof": "2026-11-13",
+   "asof": "2026-11-14",
    "binance": "ETHUSDT"
   },
   "SPX": {
@@ -44,7 +44,7 @@
    "signal": "HOLD",
    "window": null,
    "ma": null,
-   "price": 7576.2900390625,
+   "price": 7561.669921875,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.25,
@@ -56,7 +56,7 @@
    "signal": "HOLD",
    "window": null,
    "ma": null,
-   "price": 3898.0,
+   "price": 3886.300048828125,
    "size_l2": 1.0,
    "weight": 0.25,
    "target_frac": 0.25,
@@ -1739,7 +1739,7 @@
   ],
   [
    "2026-11-15",
-   4.6373
+   4.6316
   ]
  ],
  "monthly": {
@@ -1868,7 +1868,7 @@
     "8": 13.1,
     "9": 1.0,
     "10": -4.5,
-    "11": 0.0
+    "11": -0.1
    }
   },
   "annual": {
@@ -1880,12 +1880,12 @@
    "2023": 17.9,
    "2024": 28.6,
    "2025": 20.6,
-   "2026": 7.4
+   "2026": 7.3
   },
   "stats": {
-   "win_months": 56,
+   "win_months": 55,
    "tot_months": 97,
-   "win_rate": 58,
+   "win_rate": 57,
    "best_month": 16.8,
    "worst_month": -6.3,
    "best_year": 63.1,
@@ -1893,14 +1893,14 @@
    "pos_years": 7,
    "neg_years": 2,
    "tot_growth": 4.6,
-   "avg_win_m": 4.2,
-   "avg_loss_m": -2.3,
-   "cur_dd": -6.9
+   "avg_win_m": 4.3,
+   "avg_loss_m": -2.2,
+   "cur_dd": -7.0
   }
  },
  "attribution": {
   "total": {
-   "BTC": 35.5,
+   "BTC": 35.6,
    "ETH": 30.6,
    "SPX": 16.0,
    "XAU": 17.8
@@ -1967,7 +1967,7 @@
     "BTC": 4.0,
     "ETH": 4.6,
     "SPX": 2.7,
-    "XAU": -3.2
+    "XAU": -3.3
    }
   ]
  }
